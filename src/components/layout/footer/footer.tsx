@@ -1,20 +1,13 @@
 export default function Footer() {
   return (
-    <footer className="border-t">
+    <footer className="w-full border-t border-neutral-200">
 
-      <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center">
+      <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between">
 
-        <p>
-          © {new Date().getFullYear()} Rifky Kurniawan
+        <p className="text-sm text-neutral-600">
+          © {new Date().getFullYear()} Rifky Kurniawan Putra
         </p>
 
-        <div className="flex gap-6">
-
-          <a href="https://github.com">GitHub</a>
-          <a href="https://linkedin.com">LinkedIn</a>
-          <a href="/resume.pdf">Resume</a>
-
-        </div>
 
       </div>
 

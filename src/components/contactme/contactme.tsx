@@ -1,20 +1,50 @@
-export default function Contact() {
-  return (
-    <section id="contact" className="w-full">
-      <div className="max-w-4xl mx-auto px-6 py-32 text-center">
+import { Mail, Linkedin, Github } from "lucide-react"
 
-        <h2 className="text-3xl font-semibold mb-6">
-          Let's build something together
+export default function Contactme() {
+  return (
+    <section id="contactme" className="w-full">
+
+      <div className="max-w-4xl mx-auto px-6 py-28 text-center">
+
+        <h2 className="text-3xl font-semibold">
+          Let's Work Together
         </h2>
 
-        <a
-          href="mailto:rifky@email.com"
-          className="text-xl underline"
-        >
-          rifky@email.com
-        </a>
+        <p className="mt-4 text-neutral-600">
+          If you are interested in collaboration,
+          feel free to reach out.
+        </p>
+
+        <div className="flex justify-center gap-6 mt-10">
+
+          <a
+            href="mailto:email@email.com"
+            className="flex items-center gap-2 border px-5 py-3 rounded-lg"
+          >
+            <Mail size={18} />
+            Email
+          </a>
+
+          <a
+            href="#"
+            className="flex items-center gap-2 border px-5 py-3 rounded-lg"
+          >
+            <Linkedin size={18} />
+            LinkedIn
+          </a>
+
+          <a
+            href="#"
+            className="flex items-center gap-2 border px-5 py-3 rounded-lg"
+          >
+            <Github size={18} />
+            GitHub
+          </a>
+
+        </div>
 
       </div>
+
     </section>
   )
 }

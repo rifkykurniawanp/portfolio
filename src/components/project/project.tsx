@@ -1,168 +1,197 @@
 "use client"
 
+import Image from "next/image"
 import { useState } from "react"
+import { Github, ExternalLink } from "lucide-react"
 
-type Project = {
-  title: string
-  image: string
-  live: string
-  github: string
-}
-
-const projects: Project[] = [
+const projects = [
   {
-    title: "AI Medical Platform",
-    image: "/projects/p1.jpg",
-    live: "#",
-    github: "#"
+    title: "Healthcare Management System",
+    image: "/projects/project1.jpg",
+    tech: ["Next.js", "TypeScript", "PostgreSQL"],
+    github: "#",
+    demo: "#",
   },
   {
-    title: "Telemedicine System",
-    image: "/projects/p2.jpg",
-    live: "#",
-    github: "#"
+    title: "Medical Queue System",
+    image: "/projects/project2.jpg",
+    tech: ["React", "Node.js"],
+    github: "#",
+    demo: "#",
   },
   {
-    title: "Clinic Queue App",
-    image: "/projects/p3.jpg",
-    live: "#",
-    github: "#"
+    title: "Clinical Data Dashboard",
+    image: "/projects/project3.jpg",
+    tech: ["Next.js", "Chart.js"],
+    github: "#",
+    demo: "#",
   },
   {
-    title: "Coffee E-Commerce",
-    image: "/projects/p4.jpg",
-    live: "#",
-    github: "#"
+    title: "Portfolio Website",
+    image: "/projects/project4.jpg",
+    tech: ["Next.js", "Tailwind"],
+    github: "#",
+    demo: "#",
   },
   {
-    title: "Health Education CMS",
-    image: "/projects/p5.jpg",
-    live: "#",
-    github: "#"
-  }
+    title: "Backend API System",
+    image: "/projects/project5.jpg",
+    tech: ["Node.js", "PostgreSQL"],
+    github: "#",
+    demo: "#",
+  },
 ]
 
-export default function Projects() {
+export default function Project() {
 
-  const [selected, setSelected] = useState<Project | null>(null)
+  const [preview, setPreview] = useState<any>(null)
 
   return (
-    <section id="projects" className="w-full">
+    <section id="project" className="w-full">
 
       <div className="max-w-6xl mx-auto px-6 py-24">
 
-        <h2 className="text-2xl font-bold text-center mb-16">
-          Selected Projects
+        <h2 className="text-3xl font-semibold mb-12">
+          Projects
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[220px]">
+        {/* Gallery */}
 
-          {/* Large Project 1 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-          <ProjectCard
-            project={projects[0]}
-            className="md:col-span-2 md:row-span-2"
-            onClick={() => setSelected(projects[0])}
-          />
+          {projects.map((project, index) => (
 
-          {/* Small */}
+            <div
+              key={index}
+              className="group relative overflow-hidden rounded-xl border border-neutral-200 cursor-pointer"
+            >
 
-          <ProjectCard
-            project={projects[2]}
-            onClick={() => setSelected(projects[2])}
-          />
+              {/* Image */}
 
-          <ProjectCard
-            project={projects[3]}
-            onClick={() => setSelected(projects[3])}
-          />
+              <Image
+                src={project.image}
+                alt={project.title}
+                width={500}
+                height={300}
+                className="object-cover w-full h-56 transition-transform duration-500 group-hover:scale-110"
+              />
 
-          {/* Large Project 2 */}
+              {/* Overlay */}
 
-          <ProjectCard
-            project={projects[1]}
-            className="md:col-span-2"
-            onClick={() => setSelected(projects[1])}
-          />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4 text-white">
 
-          {/* Small bottom */}
+                <h3 className="font-semibold text-sm">
+                  {project.title}
+                </h3>
 
-          <ProjectCard
-            project={projects[4]}
-            onClick={() => setSelected(projects[4])}
-          />
+                {/* Tech */}
+
+                <div className="flex flex-wrap gap-2 mt-2">
+
+                  {project.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-xs bg-white/20 px-2 py-1 rounded"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+
+                </div>
+
+                {/* Actions */}
+
+                <div className="flex gap-3 mt-3">
+
+                  <a
+                    href={project.demo}
+                    onClick={(e) => e.stopPropagation()}
+                    className="p-2 bg-white/20 rounded hover:bg-white/30"
+                  >
+                    <ExternalLink size={14} />
+                  </a>
+
+                  <a
+                    href={project.github}
+                    onClick={(e) => e.stopPropagation()}
+                    className="p-2 bg-white/20 rounded hover:bg-white/30"
+                  >
+                    <Github size={14} />
+                  </a>
+
+                  <button
+                    onClick={() => setPreview(project)}
+                    className="text-xs ml-auto underline"
+                  >
+                    Preview
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          ))}
 
         </div>
 
-      </div>
+        {/* Fullscreen Preview */}
 
-      {/* Modal */}
+        {preview && (
 
-      {selected && (
+          <div
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+            onClick={() => setPreview(null)}
+          >
 
-        <div
-          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
-          onClick={() => setSelected(null)}
-        >
+            <div
+              className="relative max-w-4xl w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
 
-          <div className="max-w-4xl w-full px-6">
+              <Image
+                src={preview.image}
+                alt={preview.title}
+                width={1200}
+                height={700}
+                className="rounded-xl"
+              />
 
-            <img
-              src={selected.image}
-              alt={selected.title}
-              className="w-full object-contain"
-            />
+              <div className="flex justify-between items-center mt-4 text-white">
 
-            <div className="flex justify-between mt-4 text-white">
+                <h3 className="text-lg font-semibold">
+                  {preview.title}
+                </h3>
 
-              <a href={selected.live} target="_blank">
-                Live Project
-              </a>
+                <div className="flex gap-4">
 
-              <a href={selected.github} target="_blank">
-                Github
-              </a>
+                  <a
+                    href={preview.demo}
+                    className="border px-3 py-1 rounded text-sm"
+                  >
+                    Live
+                  </a>
+
+                  <a
+                    href={preview.github}
+                    className="border px-3 py-1 rounded text-sm"
+                  >
+                    GitHub
+                  </a>
+
+                </div>
+
+              </div>
 
             </div>
 
           </div>
 
-        </div>
-
-      )}
-
-    </section>
-  )
-}
-
-function ProjectCard({
-  project,
-  className,
-  onClick
-}: {
-  project: Project
-  className?: string
-  onClick: () => void
-}) {
-
-  return (
-    <div
-      onClick={onClick}
-      className={`relative overflow-hidden cursor-pointer ${className}`}
-    >
-
-      <img
-        src={project.image}
-        alt={project.title}
-        className="w-full h-full object-cover"
-      />
-
-      <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition flex items-center justify-center text-white">
-
-        {project.title}
+        )}
 
       </div>
 
-    </div>
+    </section>
   )
 }

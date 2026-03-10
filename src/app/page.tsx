@@ -1,25 +1,23 @@
-import AboutMe from "@/components/aboutme/aboutme"
-import Contact from "@/components/contactme/contactme"
-import Education from "@/components/education/education"
-import Experience from "@/components/experience/experience"
-import Organization from "@/components/organization/organization"
-import Projects from "@/components/project/project"
+import AboutMe from "@/components/aboutme/Aboutme"
+import Contact from "@/components/contactme/Contactme"
+import Education from "@/components/education/Education"
+import Experience from "@/components/experience/Experience"
+import Organization from "@/components/organization/Organization"
+import Project from "@/components/project/project"
 
 export default function HomePage() {
   return (
     <>
-      <AboutMe />
-      <br />
-      <div>social media </div>
-      <br />
+      <AboutMe />     
+
       <Education />
-      <br />
+
       <Experience />
-      <br />
+
       <Organization />
-      <br />
-      <Projects />
-      <br />
+
+      <Project />
+
       <Contact />
 
     </>

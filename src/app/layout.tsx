@@ -1,31 +1,33 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Inter, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 
-import Navbar from "@/components/layout/navbar/navbar"
-import { NavItem } from "@/types/layout/navbar"
-import Footer from "@/components/layout/footer/footer"
+import Navbar from "@/components/layout/navbar/Navbar"
+import Footer from "@/components/layout/footer/Footer"
+import { NavItem } from "@/types"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
 })
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
+  variable: "--font-heading",
 })
 
 export const metadata: Metadata = {
   title: "Rifky Portfolio",
-  description: "My personal portfolio website",
+  description: "Full-Stack Developer & Medical Doctor",
 }
 
 const navItems: NavItem[] = [
-  { label: "About Me", href: "#aboutme" },
+  { label: "About", href: "#about" },
   { label: "Education", href: "#education" },
+  { label: "Experience", href: "#experience" },
+  { label: "Organization", href: "#organization" },
   { label: "Project", href: "#project" },
-  { label: "Contact Me", href: "#contactme" },
+  { label: "Contact me", href: "#contactme" },
 ]
 
 export default function RootLayout({
@@ -35,18 +37,32 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${spaceGrotesk.variable} antialiased bg-neutral-50 text-neutral-900`}
       >
 
-        <Navbar name="Rifky Kurniawan Putra" items={navItems} />
+        {/* Navbar */}
 
-        {/* Page Content */}
-        <main>
+        <Navbar
+          name="Rifky Kurniawan Putra"
+          items={navItems}
+        />
+
+        {/* Main Content */}
+
+        <main className="max-w-6xl mx-auto px-6">
+
           {children}
+
         </main>
-      <Footer />
+
+        {/* Footer */}
+
+        <Footer />
+
       </body>
+
     </html>
   )
 }
