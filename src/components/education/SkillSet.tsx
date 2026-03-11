@@ -1,12 +1,14 @@
 import Image from "next/image"
-import { techSkills, medicalSkills } from "@/data/education"
+import { techSkills, medicalSkills, softSkills } from "@/data/education"
 
 export default function SkillSet() {
   return (
     <div className="mb-16">
       <h3 className="text-xl font-semibold mb-8">Skill Set</h3>
+
       <div className="grid md:grid-cols-2 gap-10">
 
+        {/* Software Engineering */}
         <div>
           <h4 className="font-medium mb-6">Software Engineering</h4>
           <div className="grid grid-cols-3 gap-6">
@@ -20,6 +22,8 @@ export default function SkillSet() {
         </div>
 
         <div>
+
+          {/* Clinical Skills */}
           <h4 className="font-medium mb-6">Clinical & Medical</h4>
           <div className="flex flex-wrap gap-3">
             {medicalSkills.map((skill) => (
@@ -31,6 +35,22 @@ export default function SkillSet() {
               </span>
             ))}
           </div>
+
+          {/* Soft Skills */}
+          <div className="mt-10">
+            <h4 className="font-medium mb-6">Soft Skills</h4>
+            <div className="flex flex-wrap gap-3">
+              {softSkills.map((skill) => (
+                <span
+                  key={skill}
+                  className="text-sm border border-neutral-200 rounded-md px-3 py-1"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+
         </div>
 
       </div>

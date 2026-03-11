@@ -16,7 +16,6 @@ export default function AboutBio({ data }: AboutBioProps) {
         </p>
       ))}
 
-      {/* Location & Status */}
       <div className="flex flex-wrap gap-6 mt-6 text-sm text-neutral-600">
         <div className="flex items-center gap-2">
           <MapPin size={16} />
@@ -28,7 +27,6 @@ export default function AboutBio({ data }: AboutBioProps) {
         </div>
       </div>
 
-      {/* CV Download */}
       <a
         href={data.cvUrl}
         target="_blank"
@@ -40,7 +38,6 @@ export default function AboutBio({ data }: AboutBioProps) {
         Download CV
       </a>
 
-      {/* Social Links */}
       <div className="mt-8">
         <p className="text-sm text-neutral-500 mb-4">Connect with me</p>
         <div className="flex flex-wrap gap-4">

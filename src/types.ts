@@ -32,6 +32,11 @@ export type TechSkill = {
   icon: string
 }
 
+export type SoftSkill = {
+  name: string
+  icon: string
+}
+
 export type AcademicEntry = {
   year: string
   institution: string
@@ -40,12 +45,30 @@ export type AcademicEntry = {
   description: string
   badge?: string
   logo: string
+  subEntries?:{
+    year: string
+    program: string
+    description: string
+    badge?: string
+
+  }[]
 }
 
-export type Certification = {
+export interface Certification {
   title: string
   issuer: string
   logo: string
+  date?: string
+  images?: {
+    src: string
+    alt?: string
+    label?: string 
+  }[]
+  activityImages?: {
+    src: string
+    alt?: string
+    label?: string
+  }[]
 }
 
 export type WorkplaceEntry = {
@@ -67,4 +90,12 @@ export type Organization = {
   role: string
   image: string
   logo: string
+}
+
+export type Project = {
+  title: string
+  image: string
+  tech: string[]
+  github: string
+  demo: string
 }

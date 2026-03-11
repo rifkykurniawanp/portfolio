@@ -7,10 +7,9 @@ interface OrganizationCardProps {
 
 export default function OrganizationCard({ org }: OrganizationCardProps) {
   return (
-    <div className="min-w-[300px] border border-neutral-200 rounded-xl overflow-hidden">
+    <div className="min-w-75 border border-neutral-200 rounded-xl overflow-hidden">
       
-      {/* Gambar + Logo badge */}
-      <div className="relative">
+            <div className="relative">
         <Image
           src={org.image}
           alt={org.name}
@@ -19,10 +18,15 @@ export default function OrganizationCard({ org }: OrganizationCardProps) {
           className="object-cover w-full h-40"
         />
 
-        {/* Logo inisial pojok kanan atas */}
         <div className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center">
           <span className="text-sm font-bold text-neutral-700">
-            {org.logo}
+            <Image
+                      src={org.logo}
+                      alt={org.name}
+                      width={25}
+                      height={25}
+                      className="object-contain"
+                    />
           </span>
         </div>
       </div>

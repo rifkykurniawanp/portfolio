@@ -64,7 +64,7 @@ export const experiences: ExperienceEntry[] = [
       {
         name: "UNIMUS",
         location: "Semarang, Indonesia",
-        logo: "UM",
+        logo: "/",
         period: "2018 – 2019",
         points: [
           "Facilitated practical medical skills sessions for over 200 medical students per semester, guiding systematic history taking and physical examination techniques to improve OSCE readiness and clinical accuracy.",
