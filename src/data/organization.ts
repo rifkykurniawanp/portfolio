@@ -4,7 +4,7 @@ export const organizations: Organization[] = [
   {
     name: "Ikatan Mahasiswa Muhammadiyah (IMM), Semarang Region l Semarang , Indonesia",
     role: "Instructor",
-    image: "/org/org1.jpg",
+    image: "/picture/organization/instructor.jpg",
     logo: "/logo/imm.png",
   },
   {

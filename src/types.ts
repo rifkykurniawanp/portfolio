@@ -90,12 +90,20 @@ export type Organization = {
   role: string
   image: string
   logo: string
+  period?: string
 }
 
 export type Project = {
+  slug: string
   title: string
+  description: string
+  longDescription?: string
   image: string
+  images?: string[]
   tech: string[]
-  github: string
   demo: string
+  github: string
+  featured?: boolean
+  status?: "completed" | "in-progress" | "archived"
+  year?: string
 }

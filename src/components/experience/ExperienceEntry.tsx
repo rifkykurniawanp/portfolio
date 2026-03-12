@@ -8,17 +8,18 @@ interface ExperienceEntryProps {
 export default function ExperienceEntryCard({ entry }: ExperienceEntryProps) {
   return (
     <div className="mb-12">
-
-      <h3 className="text-xl font-semibold mb-6 text-neutral-800">
+      <h3 className="text-xl font-semibold mb-6 text-foreground">
         {entry.title}
       </h3>
-
       <div className="space-y-8">
         {entry.workplaces.map((workplace, index) => (
-          <WorkplaceEntryCard key={index} workplace={workplace} />
+          <WorkplaceEntryCard
+            key={index}
+            workplace={workplace}
+            isLast={index === entry.workplaces.length - 1}
+          />
         ))}
       </div>
-
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import Image from "next/image"
+import TrueFocus from "@/components/animations/TrueFocus"
 import { type AboutData } from "@/types"
 
 interface AboutPhotoProps {
@@ -8,31 +9,36 @@ interface AboutPhotoProps {
 export default function AboutPhoto({ name }: AboutPhotoProps) {
   return (
     <div className="flex flex-col items-center md:items-end">
-      <div className="relative group">
-        <div className="relative w-64 h-64 rounded-2xl p-[2px] bg-gradient-to-br from-neutral-300 to-neutral-100 shadow-xl transition-transform duration-300 group-hover:scale-[1.02]">
-          
-          <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white">
-            <Image
-              src="/assets/profile.jpg"
-              alt={name}
-              fill
-              priority
-              className="object-cover"
-            />
-          </div>
 
-        </div>
+      {/* Photo */}
+      <div className="relative w-80 h-[420px] md:w-[520px] md:h-[620px]">
+        {/* Glow — lebih terang di dark mode */}
+        <div className="absolute inset-0 bg-[#5227FF]/10 dark:bg-[#5227FF]/20 blur-[160px] rounded-[40px]" />
+        <Image
+          src="/assets/profile-1.png"
+          alt={name}
+          fill
+          priority
+          className="object-contain object-bottom relative z-10"
+        />
       </div>
 
-      <p className="mt-2 text-sm text-neutral-500 tracking-wide text-center md:text-right max-w-xs leading-relaxed">
-        Medical Doctor • Occupational Doctor • Full-Stack Developer
-      </p>
-
-      {/* <div className="mt-4 flex items-center gap-2 text-xs text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
-        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        Available for Collaboration
-      </div> */}
-
+      {/* Role animation */}
+      <div className="mt-4">
+        <TrueFocus
+          sentence="Medical Doctor|Full-Stack Developer"
+          separator="|"
+          manualMode={false}
+          blurAmount={4}
+          borderColor="#5227FF"
+          glowColor="rgba(82, 39, 255, 0.35)"
+          animationDuration={0.5}
+          pauseBetweenAnimations={1.5}
+          fontSize="0.85rem"
+          fontWeight="600"
+          className="tracking-[0.15em] uppercase text-muted-foreground text-center md:text-right"
+        />
+      </div>
     </div>
   )
 }

@@ -1,25 +1,15 @@
 import AboutMe from "@/components/aboutme/AboutMe"
-import Contact from "@/components/contactme/Contactme"
-import Education from "@/components/education/Education"
-import Experience from "@/components/experience/Experience"
-import Organization from "@/components/organization/Organization"
-import Project from "@/components/project/Project"
+import { Education, Experience, Organization, Project, Contact } from "@/components/animations/LazyLoading"
 
 export default function HomePage() {
   return (
     <>
-      <AboutMe />     
-
+      <AboutMe />
       <Education />
-
       <Experience />
-
       <Organization />
-
       <Project />
-
       <Contact />
-
     </>
   )
 }

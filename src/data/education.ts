@@ -44,8 +44,8 @@ export const certifications: Certification[] = [
       { src: "/picture/certificated/revou-certificate.png", label: "Certificate" },
     ],
     activityImages: [
-      { src: "/certs/revou-activity-1.jpg", label: "Activity" },
-      { src: "/certs/revou-activity-2.jpg", label: "Activity" },
+      { src: "/picture/certificated/dokumen-revou.jpeg", label: "Activity" },
+      { src: "/picture/certificated/dokumen-revou2.jpeg", label: "Activity" },
     ],
   },
   {

@@ -1,5 +1,7 @@
-import { MapPin, Briefcase, FileText } from "lucide-react"
+import { MapPin, Briefcase, FileText, ArrowUpRight } from "lucide-react"
 import { type AboutData } from "@/types"
+import TextType from "@/components/animations/TextType"
+import { cn } from "@/lib/utils"
 
 interface AboutBioProps {
   data: AboutData
@@ -7,55 +9,103 @@ interface AboutBioProps {
 
 export default function AboutBio({ data }: AboutBioProps) {
   return (
-    <div>
-      <h2 className="text-3xl font-semibold">About Me</h2>
+    <div className="flex flex-col max-w-xl md:mt-4">
 
-      {data.paragraphs.map((text, index) => (
-        <p key={index} className="mt-4 leading-relaxed text-neutral-700">
-          {text}
-        </p>
-      ))}
+      {/* Heading */}
+      <h2 className="text-4xl font-bold tracking-tight text-foreground leading-tight">
+        <TextType
+          text={[`Hello, I'm ${data.name}`, `Welcome to my Portfolio`]}
+          typingSpeed={55}
+          deletingSpeed={30}
+          pauseDuration={2800}
+          loop={true}
+          showCursor={true}
+          cursorCharacter="|"
+          cursorClassName="text-[#5227FF]"
+          startOnVisible={true}
+          as="span"
+        />
+      </h2>
 
-      <div className="flex flex-wrap gap-6 mt-6 text-sm text-neutral-600">
-        <div className="flex items-center gap-2">
-          <MapPin size={16} />
-          {data.location}
-        </div>
-        <div className="flex items-center gap-2">
-          <Briefcase size={16} />
-          {data.status}
-        </div>
+      {/* Divider */}
+      <div className="mt-5 mb-6 w-10 h-[3px] bg-[#5227FF] rounded-full" />
+
+      {/* Bio paragraphs */}
+      <div className="space-y-4">
+        {data.paragraphs.map((text, index) => (
+          <p
+            key={index}
+            className="text-[15px] leading-[1.8] text-muted-foreground"
+          >
+            {text}
+          </p>
+        ))}
       </div>
 
-      <a
-        href={data.cvUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 mt-6 px-5 py-2.5 bg-black text-white text-sm rounded-lg hover:bg-neutral-800 transition"
-      >
-        <span className="inline-flex items-center gap-2"/> 
-        <FileText size={16} />
-        Download CV
-      </a>
+      {/* Meta info */}
+      <div className="flex flex-wrap gap-x-6 gap-y-2 mt-8 text-[13px] text-muted-foreground font-medium">
+        <span className="flex items-center gap-1.5">
+          <MapPin size={13} className="text-muted-foreground/60" />
+          {data.location}
+        </span>
+        <span className="flex items-center gap-1.5">
+          <Briefcase size={13} className="text-muted-foreground/60" />
+          {data.status}
+        </span>
+      </div>
 
-      <div className="mt-8">
-        <p className="text-sm text-neutral-500 mb-4">Connect with me</p>
-        <div className="flex flex-wrap gap-4">
-          {data.socials
-            .filter((s) => s.active)
-            .map((social) => (
-              
-              <a
-                key={social.label}
-                href={social.href}
-                target={social.href.startsWith("mailto") ? "_self" : "_blank"}
-                rel="noopener noreferrer"
-                className={`flex items-center gap-2 px-4 py-2 border border-neutral-200 rounded-lg ${social.hoverColor} transition`}
-              >
-                <social.icon size={18} />
-                {social.label}
-              </a>
-            ))}
+      {/* CTA + Socials */}
+      <div className="mt-8 flex flex-col gap-6">
+
+        {/* Download CV */}
+        <a
+          href={data.cvUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "group inline-flex items-center gap-2.5 self-start",
+            "px-5 py-2.5 rounded-lg text-[13px] font-medium",
+            "bg-foreground text-background",
+            "hover:bg-[#5227FF] hover:text-white",
+            "transition-colors duration-200"
+          )}
+        >
+          <FileText size={14} />
+          Download CV
+          <ArrowUpRight
+            size={13}
+            className="opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200"
+          />
+        </a>
+
+        {/* Socials */}
+        <div className="flex flex-col gap-3">
+          <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-muted-foreground/60">
+            Connect
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {data.socials
+              .filter((s) => s.active)
+              .map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target={social.href.startsWith("mailto") ? "_self" : "_blank"}
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "inline-flex items-center gap-2",
+                    "px-3.5 py-2 rounded-lg text-[12px] font-medium",
+                    "border border-border",
+                    "text-muted-foreground hover:text-foreground hover:border-foreground/30",
+                    social.hoverColor,
+                    "transition-all duration-150"
+                  )}
+                >
+                  <social.icon size={14} />
+                  {social.label}
+                </a>
+              ))}
+          </div>
         </div>
       </div>
     </div>

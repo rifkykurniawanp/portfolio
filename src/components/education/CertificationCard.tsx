@@ -1,7 +1,8 @@
-"use client";
+"use client"
 import Image from "next/image"
 import { useState } from "react"
 import { type Certification } from "@/types"
+import { cn } from "@/lib/utils"
 
 interface CertificationCardProps {
   cert: Certification
@@ -9,88 +10,97 @@ interface CertificationCardProps {
 
 export default function CertificationCard({ cert }: CertificationCardProps) {
   const [lightbox, setLightbox] = useState<string | null>(null)
-
-  const allImages = [
-    ...(cert.images ?? []),
-    ...(cert.activityImages ?? []),
-  ]
+  const allImages = [...(cert.images ?? []), ...(cert.activityImages ?? [])]
 
   return (
     <>
-      <div className="border border-neutral-200 rounded-xl overflow-hidden hover:border-neutral-300 transition-colors">
-        <div className="relative p-5 flex items-start gap-3">
-          <div className="w-10 h-10 shrink-0 flex items-center justify-center">
+      <div className={cn(
+        "group rounded-2xl overflow-hidden",
+        "border border-border",
+        "bg-card",
+        "transition-all duration-300",
+        "hover:-translate-y-1 hover:shadow-lg hover:border-border/80"
+      )}>
+        {/* Header */}
+        <div className="flex items-start gap-3 p-5">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-muted">
             <Image
               src={cert.logo}
               alt={cert.issuer}
-              width={40}
-              height={40}
-              className="object-contain"
+              width={28}
+              height={28}
+              loading="lazy"
+              className="object-contain transition-transform duration-300 group-hover:scale-105 dark:brightness-90"
             />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-semibold text-sm text-neutral-900 leading-snug">
+            <p className="text-sm font-semibold text-foreground leading-snug">
               {cert.title}
             </p>
-            <p className="text-xs text-neutral-400 mt-0.5">{cert.issuer}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{cert.issuer}</p>
             {cert.date && (
-              <p className="text-xs text-neutral-400">{cert.date}</p>
+              <p className="text-xs text-muted-foreground/60">{cert.date}</p>
             )}
           </div>
         </div>
 
+        {/* Image grid */}
         {allImages.length > 0 && (
-          <div
-            className={`grid gap-1 px-1 pb-1 ${
-              allImages.length === 1
-                ? "grid-cols-1"
-                : allImages.length === 2
-                ? "grid-cols-2"
-                : "grid-cols-3"
-            }`}
-          >
-            {allImages.map((img, i) => (
-              <button
-                key={i}
-                onClick={() => setLightbox(img.src)}
-                className="relative aspect-video overflow-hidden rounded-lg group bg-neutral-100"
-              >
-                <Image
-                  src={img.src}
-                  alt={img.alt ?? `${cert.title} image ${i + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                {/* overlay */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200" />
-                {/* label badge */}
-                {img.label && (
-                  <span className="absolute bottom-1.5 left-1.5 text-[10px] bg-black/50 text-white px-1.5 py-0.5 rounded-full backdrop-blur-sm">
-                    {img.label}
-                  </span>
-                )}
-              </button>
-            ))}
+          <div className="px-3 pb-3">
+            <div className={cn(
+              "grid gap-2",
+              allImages.length === 1 && "grid-cols-1",
+              allImages.length === 2 && "grid-cols-2",
+              allImages.length >= 3 && "grid-cols-3",
+            )}>
+              {allImages.map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => setLightbox(img.src)}
+                  className="relative aspect-video overflow-hidden rounded-lg group/image bg-muted"
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt ?? `${cert.title} image ${i + 1}`}
+                    fill
+                    loading="lazy"
+                    sizes="(max-width:768px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-300 group-hover/image:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-200" />
+                  {img.label && (
+                    <span className="absolute bottom-1.5 left-1.5 text-[10px] bg-black/60 text-white px-2 py-0.5 rounded-full backdrop-blur-sm">
+                      {img.label}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
 
+      {/* Lightbox */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
           onClick={() => setLightbox(null)}
         >
-          <div className="relative max-w-3xl w-full max-h-[90vh]">
+          <div className="relative max-w-4xl w-full max-h-[90vh]">
             <Image
               src={lightbox}
               alt="Preview"
               width={1200}
               height={800}
-              className="object-contain w-full h-full rounded-lg"
+              className="object-contain w-full h-full rounded-xl"
             />
             <button
               onClick={() => setLightbox(null)}
-              className="absolute top-2 right-2 w-8 h-8 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors text-sm"
+              className={cn(
+                "absolute top-3 right-3",
+                "flex h-8 w-8 items-center justify-center rounded-full",
+                "bg-black/60 text-white hover:bg-black/80 transition"
+              )}
             >
               ✕
             </button>
