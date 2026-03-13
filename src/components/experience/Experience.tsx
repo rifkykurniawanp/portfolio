@@ -1,31 +1,10 @@
-"use client"
-import { useEffect, useRef, useState } from "react"
 import { experiences } from "@/data/experience"
 import ExperienceEntryCard from "./ExperienceEntry"
-import { cn } from "@/lib/utils"
+import Reveal from "@/components/effect/Reveal"
 
 export default function Experience() {
-  const ref = useRef<HTMLElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.unobserve(entry.target)
-        }
-      },
-      { threshold: 0.05 }
-    )
-
-    if (ref.current) observer.observe(ref.current)
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section id="experience" ref={ref} className="w-full">
+    <section id="experience" className="w-full">
 
       <div className="max-w-6xl mx-auto px-4 md:px-6 py-20 md:py-28">
 
@@ -37,14 +16,7 @@ export default function Experience() {
           <div className="mt-4 w-10 h-[3px] bg-[#5227FF] rounded-full" />
         </header>
 
-        <div
-          className={cn(
-            "transition-all duration-700",
-            visible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-6"
-          )}
-        >
+        <Reveal>
           <div className="flex flex-col gap-4 max-w-4xl">
             {experiences.map((entry) => (
               <ExperienceEntryCard
@@ -53,7 +25,7 @@ export default function Experience() {
               />
             ))}
           </div>
-        </div>
+        </Reveal>
 
       </div>
 

@@ -5,10 +5,17 @@ import AboutPhoto from "./AboutPhoto"
 export default function AboutMe() {
   return (
     <section id="about" className="w-full">
-      <div className="max-w-6xl mx-auto px-6 pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-16 items-start">
-          <AboutBio data={aboutData} />
-          <AboutPhoto name={aboutData.name} />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
+          
+          <div className="w-full">
+            <AboutBio data={aboutData} />
+          </div>
+          
+          <div className="w-full flex justify-center md:justify-end">
+            <AboutPhoto name={aboutData.name} />
+          </div>
+
         </div>
       </div>
     </section>

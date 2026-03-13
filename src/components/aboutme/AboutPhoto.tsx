@@ -10,17 +10,25 @@ export default function AboutPhoto({ name }: AboutPhotoProps) {
   return (
     <div className="flex flex-col items-center md:items-end">
 
-      {/* Photo */}
       <div className="relative w-80 h-[420px] md:w-[520px] md:h-[620px]">
-        {/* Glow — lebih terang di dark mode */}
-        <div className="absolute inset-0 bg-[#5227FF]/10 dark:bg-[#5227FF]/20 blur-[160px] rounded-[40px]" />
+
+        {/* Glow */}
+        <div
+          aria-hidden
+          className="absolute inset-0 rounded-[40px] blur-[160px]
+          bg-[#5227FF]/10 dark:bg-[#5227FF]/20"
+        />
+
         <Image
-          src="/assets/profile-1.png"
+          src="/assets/profile-1.webp"
           alt={name}
           fill
           priority
-          className="object-contain object-bottom relative z-10"
+          quality={90}
+          sizes="(max-width: 768px) 320px, 520px"
+          className="relative z-10 object-contain object-bottom"
         />
+
       </div>
 
       {/* Role animation */}
@@ -36,9 +44,10 @@ export default function AboutPhoto({ name }: AboutPhotoProps) {
           pauseBetweenAnimations={1.5}
           fontSize="0.85rem"
           fontWeight="600"
-          className="tracking-[0.15em] uppercase text-muted-foreground text-center md:text-right"
+          className="text-center md:text-right tracking-[0.15em] uppercase text-muted-foreground"
         />
       </div>
+
     </div>
   )
 }

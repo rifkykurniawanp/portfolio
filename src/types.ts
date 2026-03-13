@@ -86,6 +86,7 @@ export type ExperienceEntry = {
 
 
 export type Organization = {
+  id: string
   name: string
   role: string
   image: string

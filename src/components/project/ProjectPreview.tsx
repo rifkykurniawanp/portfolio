@@ -1,9 +1,17 @@
 "use client"
+
 import { useEffect, useState, useCallback } from "react"
 import { createPortal } from "react-dom"
 import Image from "next/image"
 import Link from "next/link"
-import { Github, ExternalLink, X, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
+import {
+  Github,
+  ExternalLink,
+  X,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { type Project } from "@/types"
 import { cn } from "@/lib/utils"
@@ -32,38 +40,54 @@ const slideVariants = {
 
 export default function ProjectPreview({ project, onClose }: ProjectPreviewProps) {
   const [mounted, setMounted] = useState(false)
-  const [[page, direction], setPage] = useState([0, 0])
+  const [[page, direction], setPage] = useState<[number, number]>([0, 0])
   const [isPaused, setIsPaused] = useState(false)
 
   const allImages = project ? [project.image, ...(project.images || [])] : []
-  
-  // Calculate index to ensure it always maps correctly to the array length
-  const imageIndex = ((page % allImages.length) + allImages.length) % allImages.length
+
+  const imageIndex =
+    allImages.length > 0
+      ? ((page % allImages.length) + allImages.length) % allImages.length
+      : 0
 
   const paginate = useCallback((newDirection: number) => {
-    setPage([page + newDirection, newDirection])
-  }, [page])
+    setPage(([prev]) => [prev + newDirection, newDirection])
+  }, [])
 
-  // Auto-play logic: 2.5s interval
+  // autoplay
   useEffect(() => {
-    if (!project || isPaused) return
+    if (!project || isPaused || allImages.length <= 1) return
 
     const timer = setInterval(() => {
-      // Moves forward; once it hits the end, the modulo math handles the "rollback" to 0
-      paginate(1)
-    }, 2500) 
+      setPage(([prev]) => [prev + 1, 1])
+    }, 2500)
 
     return () => clearInterval(timer)
-  }, [project, isPaused, paginate])
+  }, [project, isPaused, allImages.length])
 
+  // mount + scroll lock
   useEffect(() => {
     setMounted(true)
+
     if (project) {
       setPage([0, 0])
       document.body.style.overflow = "hidden"
     }
-    return () => { document.body.style.overflow = "unset" }
+
+    return () => {
+      document.body.style.overflow = "unset"
+    }
   }, [project])
+
+  // ESC close
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+    }
+
+    window.addEventListener("keydown", handleKey)
+    return () => window.removeEventListener("keydown", handleKey)
+  }, [onClose])
 
   if (!mounted || !project) return null
 
@@ -85,9 +109,10 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          {/* Close Button */}
-          <button 
-            onClick={onClose} 
+
+          {/* Close */}
+          <button
+            onClick={onClose}
             className="absolute top-5 right-5 z-50 w-10 h-10 flex items-center justify-center bg-black/40 hover:bg-black/60 backdrop-blur-md rounded-full text-white transition-all border border-white/10"
           >
             <X size={18} />
@@ -96,9 +121,9 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
           {/* Image Section */}
           <div className="relative h-80 w-full p-3">
             <div className="relative h-full w-full overflow-hidden rounded-[1.8rem] bg-muted">
-              {/* Progress Bar (Matches 2.5s) */}
-              {!isPaused && (
-                <motion.div 
+
+              {!isPaused && allImages.length > 1 && (
+                <motion.div
                   key={page}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
@@ -115,9 +140,9 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ 
-                    x: { type: "spring", stiffness: 400, damping: 35 }, 
-                    opacity: { duration: 0.2 } 
+                  transition={{
+                    x: { type: "spring", stiffness: 400, damping: 35 },
+                    opacity: { duration: 0.2 },
                   }}
                   className="absolute inset-0"
                 >
@@ -125,41 +150,67 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
                     src={allImages[imageIndex]}
                     alt={project.title}
                     fill
-                    className="object-cover"
+                    sizes="(max-width:768px) 100vw, 768px"
                     priority
+                    className="object-cover"
                   />
                 </motion.div>
               </AnimatePresence>
 
-              {/* Overlays */}
+              {/* gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-              
-              {/* Navigation Buttons */}
-              <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between z-20">
-                <button onClick={() => paginate(-1)} className="p-2 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-sm transition-all border border-white/5">
-                  <ChevronLeft size={20} />
-                </button>
-                <button onClick={() => paginate(1)} className="p-2 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-sm transition-all border border-white/5">
-                  <ChevronRight size={20} />
-                </button>
-              </div>
 
+              {/* navigation */}
+              {allImages.length > 1 && (
+                <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between z-20">
+                  <button
+                    onClick={() => paginate(-1)}
+                    className="p-2 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-sm transition-all border border-white/5"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+
+                  <button
+                    onClick={() => paginate(1)}
+                    className="p-2 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-sm transition-all border border-white/5"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+              )}
+
+              {/* title */}
               <div className="absolute bottom-6 left-8 z-20">
-                <h3 className="text-2xl font-bold text-white tracking-tight">{project.title}</h3>
+                <h3 className="text-2xl font-bold text-white tracking-tight">
+                  {project.title}
+                </h3>
+
                 <div className="flex items-center gap-2">
-                   <span className="text-white/70 text-sm">{project.year}</span>
-                   <span className="w-1 h-1 bg-white/30 rounded-full" />
-                   <span className="text-white/70 text-sm font-mono">{imageIndex + 1} / {allImages.length}</span>
+                  <span className="text-white/70 text-sm">{project.year}</span>
+
+                  {allImages.length > 1 && (
+                    <>
+                      <span className="w-1 h-1 bg-white/30 rounded-full" />
+                      <span className="text-white/70 text-sm font-mono">
+                        {imageIndex + 1} / {allImages.length}
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
+
             </div>
           </div>
 
-          {/* Content Section */}
+          {/* Content */}
           <div className="px-8 pb-10 pt-4">
+
             <div className="flex flex-wrap gap-2 mb-6">
               {project.tech.map((tech) => (
-                <span key={tech} className="text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full bg-muted text-muted-foreground border border-border/50">
+                <span
+                  key={tech}
+                  className="text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full bg-muted text-muted-foreground border border-border/50"
+                >
                   {tech}
                 </span>
               ))}
@@ -170,6 +221,7 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
             </p>
 
             <div className="flex items-center justify-between border-t border-border/50 pt-6">
+
               <Link
                 href={`/project/${project.slug}`}
                 className="group flex items-center gap-2 text-sm font-bold text-foreground hover:text-[#5227FF] transition-colors"
@@ -177,13 +229,33 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
                 View Case Study
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </Link>
-              
+
               <div className="flex items-center gap-4">
-                {project.github && <a href={project.github} target="_blank" className="text-muted-foreground hover:text-foreground transition-all hover:scale-110"><Github size={18} /></a>}
-                {project.demo && <a href={project.demo} target="_blank" className="text-muted-foreground hover:text-foreground transition-all hover:scale-110"><ExternalLink size={18} /></a>}
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    className="text-muted-foreground hover:text-foreground transition-all hover:scale-110"
+                  >
+                    <Github size={18} />
+                  </a>
+                )}
+
+                {project.demo && (
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    className="text-muted-foreground hover:text-foreground transition-all hover:scale-110"
+                  >
+                    <ExternalLink size={18} />
+                  </a>
+                )}
               </div>
+
             </div>
+
           </div>
+
         </motion.div>
       </motion.div>
     </AnimatePresence>,

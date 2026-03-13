@@ -1,7 +1,17 @@
 import type { NextConfig } from "next";
+import createBundleAnalyzer from "@next/bundle-analyzer";
+
+const withBundleAnalyzer = createBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    formats: ["image/webp"],
+    deviceSizes: [640, 768, 1024, 1280],
+    imageSizes: [32, 64, 96, 128, 256],
+    qualities: [75],
+  },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

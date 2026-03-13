@@ -30,6 +30,7 @@ export default function OrganizationCard({ org }: OrganizationCardProps) {
           src={org.image}
           alt={org.name}
           fill
+          sizes="(max-width:768px) 280px, (max-width:1024px) 320px, 380px"
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
 
@@ -43,9 +44,10 @@ export default function OrganizationCard({ org }: OrganizationCardProps) {
         )}>
           <Image
             src={org.logo}
-            alt="Logo"
+            alt={`${org.name} logo`}
             width={22}
             height={22}
+            sizes="22px"
             className="object-contain dark:brightness-90"
           />
         </div>

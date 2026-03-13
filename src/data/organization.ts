@@ -2,33 +2,38 @@ import { Organization } from "@/types"
 
 export const organizations: Organization[] = [
   {
-    name: "Ikatan Mahasiswa Muhammadiyah (IMM), Semarang Region l Semarang , Indonesia",
+    id: "imm-semarang-instructor",
+    name: "Ikatan Mahasiswa Muhammadiyah (IMM), Semarang Region | Semarang, Indonesia",
     role: "Instructor",
     image: "/picture/organization/instructor.jpg",
     logo: "/logo/imm.png",
   },
   {
-    name: "Ikatan Mahasiswa Muhammadiyah (IMM), Semarang Region l Semarang , Indonesia",
+    id: "imm-semarang-secretary",
+    name: "Ikatan Mahasiswa Muhammadiyah (IMM), Semarang Region | Semarang, Indonesia",
     role: "Secretary of Research & Knowledge Development",
-    image: "/picture/organization/imm-semarang.jpg",
+    image: "/picture/organization/imm-semarang.webp",
     logo: "/logo/imm.png",
   },
   {
-    name: "IMM, Faculty of Medicine, UNIMUS l Semarang, Indonesia",
+    id: "imm-fk-unimus-president",
+    name: "IMM, Faculty of Medicine, UNIMUS | Semarang, Indonesia",
     role: "President",
-    image: "/picture/organization/imm-fk-unimus.jpg",
+    image: "/picture/organization/imm-fk-unimus.webp",
     logo: "/logo/imm.png",
   },
   {
-    name: "IMM, Faculty of Medicine, UNIMUS l Semarang, Indonesia",
+    id: "imm-fk-unimus-secretary",
+    name: "IMM, Faculty of Medicine, UNIMUS | Semarang, Indonesia",
     role: "Organization Secretary",
     image: "/picture/organization/imm-unimus.jpg",
     logo: "/logo/imm.png",
   },
   {
-    name: "Majelis Dakwa Kedokteran Islam (MADANI) Faculty of Medicine, UNIMUS  l Semarang, Indonesia",
+    id: "madani-hublu-it",
+    name: "Majelis Dakwa Kedokteran Islam (MADANI), Faculty of Medicine UNIMUS | Semarang, Indonesia",
     role: "Head of External Relations – Information and Technology (HUBLU-IT)",
-    image: "/picture/organization/fuldfk.jpg",
-    logo: "/logo/madani.jpg",
+    image: "/picture/organization/fuldfk.webp",
+    logo: "/logo/madani.webp",
   },
 ]

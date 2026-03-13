@@ -8,7 +8,7 @@ export const academicEntries: AcademicEntry[] = [
     description:
       "Intensive software engineering training focusing on modern web development using JavaScript, TypeScript, React, REST API development, and PostgreSQL.",
     badge: "Exemplary Graduate",
-    logo: "/logo/revou.png",
+    logo: "/logo/revou.svg",
   },
   {
     year: "2016 – 2023",
@@ -38,14 +38,14 @@ export const certifications: Certification[] = [
   {
     title: "Full Stack Software Engineering",
     issuer: "RevoU",
-    logo: "/logo/revou.png",
+    logo: "/logo/revou.svg",
     date: "August 2025",
     images: [
-      { src: "/picture/certificated/revou-certificate.png", label: "Certificate" },
+      { src: "/picture/certificated/revou-certificate.webp", label: "Certificate" },
     ],
     activityImages: [
-      { src: "/picture/certificated/dokumen-revou.jpeg", label: "Activity" },
-      { src: "/picture/certificated/dokumen-revou2.jpeg", label: "Activity" },
+      { src: "/picture/certificated/dokumen-revou.webp", label: "Activity" },
+      { src: "/picture/certificated/dokumen-revou2.webp", label: "Activity" },
     ],
   },
   {
@@ -57,7 +57,7 @@ export const certifications: Certification[] = [
       { src: "/picture/certificated/acls-certificate.png", label: "Certificate" },
     ],
     activityImages: [
-      { src: "/picture/certificated/dokumen-acls.jpeg", label: "Activity" },
+      { src: "/picture/certificated/dokumen-acls.webp", label: "Activity" },
     ],
   },
   {
@@ -69,7 +69,7 @@ export const certifications: Certification[] = [
       { src: "/picture/certificated/osi-certificate.png", label: "Certificate" },
     ],
     activityImages: [
-      { src: "/picture/certificated/dokumen-osi.jpeg", label: "Activity" },
+      { src: "/picture/certificated/dokumen-osi.webp", label: "Activity" },
     ],
   },
   {
@@ -78,10 +78,10 @@ export const certifications: Certification[] = [
     logo: "/logo/k3.png",
     date: "December 2023",
     images: [
-      { src: "/picture/certificated/hiperkes-certificate.png", label: "Certificate" },
+      { src: "/picture/certificated/hiperkes-certificate.webp", label: "Certificate" },
     ],
     activityImages: [
-      { src: "/picture/certificated/dokumen-hiperkes.jpeg", label: "Activity" },
+      { src: "/picture/certificated/dokumen-hiperkes.webp", label: "Activity" },
     ],
   },
 ]

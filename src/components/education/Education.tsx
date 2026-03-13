@@ -1,69 +1,32 @@
-"use client"
-import { useEffect, useRef, useState } from "react"
 import { academicEntries, certifications } from "@/data/education"
 import AcademicCard from "./AcademicCard"
 import CertificationCard from "./CertificationCard"
 import SkillSet from "./SkillSet"
-import { cn } from "@/lib/utils"
+import Reveal from "@/components/effect/Reveal"
 
 export default function Education() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1 }
-    )
-
-    observer.observe(el)
-    const timeout = setTimeout(() => setIsVisible(true), 600)
-
-    return () => {
-      observer.disconnect()
-      clearTimeout(timeout)
-    }
-  }, [])
-
   return (
-    <section id="education" ref={sectionRef} className="w-full">
+    <section id="education" className="w-full">
       <div className="max-w-6xl mx-auto px-6 py-24">
 
         <header className="mb-16">
-          <h2 className="text-3xl font-semibold tracking-tight text-foreground">
+          <h2 className="text-3xl font-semibold tracking-tight">
             Education
           </h2>
         </header>
 
-        <div
-          className={cn(
-            "transition-all duration-700 ease-out",
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-6"
-          )}
-        >
-          {/* Academic */}
+        <Reveal>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
             {academicEntries.map((entry) => (
               <AcademicCard key={entry.institution} entry={entry} />
             ))}
           </div>
 
-          {/* Skills */}
           <SkillSet />
 
-          {/* Certifications */}
           <div className="mt-20">
-            <h3 className="text-xl font-semibold mb-8 text-foreground">
+            <h3 className="text-xl font-semibold mb-8">
               Certifications
             </h3>
 
@@ -77,7 +40,8 @@ export default function Education() {
             </div>
 
           </div>
-        </div>
+
+        </Reveal>
 
       </div>
     </section>

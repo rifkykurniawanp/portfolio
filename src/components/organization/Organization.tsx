@@ -1,30 +1,23 @@
 "use client"
-import { useRef, useMemo } from "react"
-import dynamic from "next/dynamic"
+import { useRef } from "react"
 import { organizations } from "@/data/organization"
+import OrganizationCard from "./OrganizationCard"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-const OrganizationCard = dynamic(() => import("./OrganizationCard"), {
-  loading: () => (
-    <div className="w-[300px] h-[320px] bg-muted animate-pulse rounded-2xl" />
-  ),
-  ssr: true,
-})
-
 export default function Organizations() {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const memoizedOrgs = useMemo(() => organizations, [])
 
   const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const { clientWidth } = scrollRef.current
-      const scrollTo =
-        direction === "left"
-          ? scrollRef.current.scrollLeft - clientWidth * 0.8
-          : scrollRef.current.scrollLeft + clientWidth * 0.8
-      scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" })
-    }
+    const container = scrollRef.current
+    if (!container) return
+
+    const offset = container.clientWidth * 0.8
+
+    container.scrollBy({
+      left: direction === "left" ? -offset : offset,
+      behavior: "smooth",
+    })
   }
 
   return (
@@ -35,6 +28,7 @@ export default function Organizations() {
           <h2 className="text-3xl font-semibold tracking-tight text-foreground">
             Organizations
           </h2>
+
           <div className="flex gap-3">
             {(["left", "right"] as const).map((dir) => (
               <button
@@ -47,7 +41,9 @@ export default function Organizations() {
                   "transition-all duration-200 active:scale-90"
                 )}
               >
-                {dir === "left" ? <ChevronLeft size={22} /> : <ChevronRight size={22} />}
+                {dir === "left"
+                  ? <ChevronLeft size={22} />
+                  : <ChevronRight size={22} />}
               </button>
             ))}
           </div>
@@ -58,9 +54,9 @@ export default function Organizations() {
             ref={scrollRef}
             className="flex gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-12 scroll-smooth"
           >
-            {memoizedOrgs.map((org, index) => (
+            {organizations.map((org, index) => (
               <div
-                key={index}
+                key={`${org.name}-${index}`}
                 className="snap-start shrink-0 w-[280px] sm:w-[320px] md:w-[380px]"
               >
                 <OrganizationCard org={org} />
