@@ -7,51 +7,23 @@ import { z } from "zod"
 import { toast } from "sonner"
 import Stepper, { Step } from "@/components/animations/Stepper"
 import { cn } from "@/lib/utils"
-import { CheckCircle2, Loader2 } from "lucide-react"
+import { CheckCircle2, Loader2, AlertCircle } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 
 const step1Schema = z.object({
-  from_name: z.string().min(2, "Name must be at least 2 characters"),
-  from_email: z.string().email("Invalid email address"),
+  from_name: z.string().trim().min(2, "Name is required"),
+  from_email: z.string().trim().email("Invalid email address"),
 })
 const step2Schema = z.object({
-  subject: z.string().min(3, "Subject must be at least 3 characters"),
+  subject: z.string().trim().min(3, "Subject must be at least 3 characters"),
 })
 const step3Schema = z.object({
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  message: z.string().trim().min(10, "Message must be at least 10 characters"),
 })
+
 const fullSchema = step1Schema.merge(step2Schema).merge(step3Schema)
 type FormData = z.infer<typeof fullSchema>
 const stepSchemas = [step1Schema, step2Schema, step3Schema]
-
-function Field({
-  label,
-  error,
-  children,
-}: {
-  label: string
-  error?: string
-  children: React.ReactNode
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-foreground">{label}</label>
-      {children}
-      {error && (
-        <p className="flex items-center gap-1 text-xs text-red-500 animate-in slide-in-from-top-1 duration-200">
-          <span>⚠</span> {error}
-        </p>
-      )}
-    </div>
-  )
-}
-
-const baseInput = cn(
-  "w-full rounded-lg px-3.5 py-2.5 text-sm",
-  "bg-background border",
-  "text-foreground placeholder:text-muted-foreground/60",
-  "focus:outline-none focus:ring-2 focus:ring-[#5227FF]/40 focus:border-[#5227FF]",
-  "transition-all duration-200"
-)
 
 export default function ContactForm() {
   const [currentStep, setCurrentStep] = useState(1)
@@ -66,36 +38,28 @@ export default function ContactForm() {
   } = useForm<FormData>({
     resolver: zodResolver(fullSchema),
     mode: "onTouched",
-    defaultValues: {
-      from_name: "",
-      from_email: "",
-      subject: "",
-      message: "",
-    },
   })
 
   const handleStepChange = async (next: number) => {
-    const schema = stepSchemas[currentStep - 1]
-    const fields = Object.keys(schema.shape) as (keyof FormData)[]
-    const valid = await trigger(fields)
-    if (!valid) {
-      toast.error("Please fix the errors before continuing.")
+    if (next < currentStep) {
+      setCurrentStep(next)
       return
     }
-    setCurrentStep(next)
+    const currentSchema = stepSchemas[currentStep - 1]
+    const fieldsToValidate = Object.keys(currentSchema.shape) as (keyof FormData)[]
+    const isValid = await trigger(fieldsToValidate)
+    if (isValid) {
+      setCurrentStep(next)
+    } else {
+      toast.error("Please fill in the required fields to continue.")
+    }
   }
 
-  const handleSubmit = async () => {
-    const fields = Object.keys(step3Schema.shape) as (keyof FormData)[]
-    const valid = await trigger(fields)
-    if (!valid) {
-      toast.error("Please fix the errors before submitting.")
-      return
-    }
-
+  const onSubmit = async () => {
+    const isLastStepValid = await trigger(["message"])
+    if (!isLastStepValid) return
     setSending(true)
-    const toastId = toast.loading("Sending your message...")
-
+    const toastId = toast.loading("Sending message...")
     try {
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
@@ -103,13 +67,10 @@ export default function ContactForm() {
         getValues(),
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       )
-      toast.success("Message sent! I'll get back to you soon.", { id: toastId })
       setSuccess(true)
+      toast.success("Message sent! I'll be in touch.", { id: toastId })
     } catch {
-      toast.error("Failed to send. Please email directly at krifky14@gmail.com", {
-        id: toastId,
-        duration: 6000,
-      })
+      toast.error("Failed to send. Please use the email link instead.", { id: toastId })
     } finally {
       setSending(false)
     }
@@ -117,91 +78,130 @@ export default function ContactForm() {
 
   if (success) {
     return (
-      <div className="flex flex-col items-center gap-4 py-16 text-center">
-        <CheckCircle2 size={48} className="text-[#5227FF]" />
-        <h3 className="text-xl font-semibold text-foreground">Message Sent!</h3>
-        <p className="text-sm text-muted-foreground">
-          Thanks for reaching out. I'll get back to you soon.
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col items-start gap-3 py-12"
+      >
+        <CheckCircle2 size={28} className="text-foreground" />
+        <h3 className="text-xl font-bold text-foreground">Message sent!</h3>
+        <p className="text-muted-foreground text-sm leading-relaxed">
+          Thanks for reaching out. I'll get back to you shortly.
         </p>
-      </div>
+      </motion.div>
     )
   }
 
   return (
-    <Stepper
-      initialStep={1}
-      onStepChange={handleStepChange}
-      onFinalStepCompleted={handleSubmit}
-      nextButtonText="Continue"
-      backButtonText="Back"
-    >
-      {/* Step 1 — Identity */}
-      <Step>
-        <div className="flex flex-col gap-5 py-4">
-          <div>
-            <h3 className="text-lg font-semibold text-foreground">Who are you?</h3>
-            <p className="text-sm text-muted-foreground mt-1">Let me know your name and email.</p>
-          </div>
-          <Field label="Full Name" error={errors.from_name?.message}>
-            <input
-              {...register("from_name")}
-              type="text"
-              placeholder="John Doe"
-              className={cn(baseInput, errors.from_name ? "border-red-500 focus:ring-red-400/30" : "border-border")}
-            />
-          </Field>
-          <Field label="Email Address" error={errors.from_email?.message}>
-            <input
-              {...register("from_email")}
-              type="email"
-              placeholder="john@example.com"
-              className={cn(baseInput, errors.from_email ? "border-red-500 focus:ring-red-400/30" : "border-border")}
-            />
-          </Field>
-        </div>
-      </Step>
+    <div>
+      {/* Step label */}
+      <p className="text-xs text-muted-foreground font-medium mb-8 uppercase tracking-widest">
+        Step {currentStep} of 3
+      </p>
 
-      {/* Step 2 — Subject */}
-      <Step>
-        <div className="flex flex-col gap-5 py-4">
-          <div>
-            <h3 className="text-lg font-semibold text-foreground">What's it about?</h3>
-            <p className="text-sm text-muted-foreground mt-1">Give a brief subject for your message.</p>
-          </div>
-          <Field label="Subject" error={errors.subject?.message}>
-            <input
-              {...register("subject")}
-              type="text"
-              placeholder="Project collaboration, job offer, etc."
-              className={cn(baseInput, errors.subject ? "border-red-500 focus:ring-red-400/30" : "border-border")}
-            />
-          </Field>
-        </div>
-      </Step>
-
-      {/* Step 3 — Message */}
-      <Step>
-        <div className="flex flex-col gap-5 py-4">
-          <div>
-            <h3 className="text-lg font-semibold text-foreground">Your message</h3>
-            <p className="text-sm text-muted-foreground mt-1">Tell me more about what you have in mind.</p>
-          </div>
-          <Field label="Message" error={errors.message?.message}>
-            <textarea
-              {...register("message")}
-              rows={5}
-              placeholder="Hi Rifky, I'd like to discuss..."
-              className={cn(baseInput, "resize-none", errors.message ? "border-red-500 focus:ring-red-400/30" : "border-border")}
-            />
-          </Field>
-          {sending && (
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <Loader2 size={14} className="animate-spin" />
-              Sending...
+      <Stepper
+        currentStep={currentStep}
+        onStepChange={handleStepChange}
+        onFinalStepCompleted={onSubmit}
+        disableStepIndicators={true}
+        nextButtonText="Continue →"
+      >
+        {/* Step 1 */}
+        <Step>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground">Who are you?</h3>
+              <p className="text-sm text-muted-foreground mt-1">Let me know your name and email.</p>
             </div>
-          )}
-        </div>
-      </Step>
-    </Stepper>
+            <div className="space-y-4">
+              <FieldWrapper label="Full Name" error={errors.from_name?.message}>
+                <input
+                  {...register("from_name")}
+                  placeholder="John Doe"
+                  className={cn(inputStyles, errors.from_name && errorBorder)}
+                />
+              </FieldWrapper>
+              <FieldWrapper label="Email Address" error={errors.from_email?.message}>
+                <input
+                  {...register("from_email")}
+                  placeholder="john@example.com"
+                  className={cn(inputStyles, errors.from_email && errorBorder)}
+                />
+              </FieldWrapper>
+            </div>
+          </div>
+        </Step>
+
+        {/* Step 2 */}
+        <Step>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground">What's the topic?</h3>
+              <p className="text-sm text-muted-foreground mt-1">This helps me understand your request.</p>
+            </div>
+            <FieldWrapper label="Subject" error={errors.subject?.message}>
+              <input
+                {...register("subject")}
+                placeholder="Project Inquiry, Job Offer, etc."
+                className={cn(inputStyles, errors.subject && errorBorder)}
+              />
+            </FieldWrapper>
+          </div>
+        </Step>
+
+        {/* Step 3 */}
+        <Step>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground">Your message</h3>
+              <p className="text-sm text-muted-foreground mt-1">Briefly explain what you need help with.</p>
+            </div>
+            <FieldWrapper label="Message" error={errors.message?.message}>
+              <textarea
+                {...register("message")}
+                rows={5}
+                placeholder="Hi Rifky, I'm looking for..."
+                className={cn(inputStyles, "resize-none", errors.message && errorBorder)}
+              />
+            </FieldWrapper>
+            {sending && (
+              <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                <Loader2 size={14} className="animate-spin" />
+                Sending...
+              </div>
+            )}
+          </div>
+        </Step>
+      </Stepper>
+    </div>
   )
 }
+
+function FieldWrapper({ label, error, children }: {
+  label: string
+  error?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="space-y-1.5">
+      <label className="text-sm font-medium text-foreground">{label}</label>
+      {children}
+      <AnimatePresence>
+        {error && (
+          <motion.p
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            className="flex items-center gap-1.5 text-xs text-red-500"
+          >
+            <AlertCircle size={11} /> {error}
+          </motion.p>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+const inputStyles = "w-full rounded-lg px-4 py-3 text-sm outline-none transition-all duration-200 bg-transparent border border-border text-foreground placeholder:text-muted-foreground/40 focus:border-foreground/40 focus:ring-0"
+
+const errorBorder = "border-red-400"

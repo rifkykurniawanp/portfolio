@@ -1,6 +1,7 @@
 "use client"
 import Image from "next/image"
 import { useState } from "react"
+import { createPortal } from "react-dom"
 import { type Certification } from "@/types"
 import { cn } from "@/lib/utils"
 
@@ -80,10 +81,10 @@ export default function CertificationCard({ cert }: CertificationCardProps) {
         )}
       </div>
 
-      {/* Lightbox */}
-      {lightbox && (
+      {/* Lightbox via Portal */}
+      {lightbox && createPortal(
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
+          className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6"
           onClick={() => setLightbox(null)}
         >
           <div className="relative max-w-4xl w-full max-h-[90vh]">
@@ -105,7 +106,8 @@ export default function CertificationCard({ cert }: CertificationCardProps) {
               ✕
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   )

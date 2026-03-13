@@ -79,9 +79,9 @@ export default function ProjectCard({ project, onPreview }: ProjectCardProps) {
           <div className="absolute top-3 left-3">
             <span className={cn(
               "text-[9px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full backdrop-blur-md border border-white/10 shadow-sm",
-              project.status === "completed" && "bg-emerald-500/80 text-white",
-              project.status === "in-progress" && "bg-amber-500/80 text-white",
-              project.status === "archived" && "bg-neutral-500/80 text-white",
+              project.status === "full-stack" && "bg-emerald-500/80 text-white",
+              project.status === "front-end" && "bg-amber-500/80 text-white",
+              project.status === "back-end" && "bg-neutral-500/80 text-white",
             )}>
               {project.status}
             </span>

@@ -6,7 +6,7 @@ export const aboutData: AboutData = {
   name: "Rifky Kurniawan",
   location: "Pemalang, Indonesia",
   status: "Open to Work",
-  cvUrl: "/assets/cv-rifky-kurniawan.pdf",
+  cvUrl: "/pdf-cv.pdf",
   paragraphs: [
     "I am an aspiring Software Engineer with a healthcare background who values critical thinking, precision, and evidence-based decision making.",
     "With more than 12 months of hands-on clinical experience and full-stack software engineering training at RevoU, I build modern web systems that prioritize reliability, security, and real-world usability.",
@@ -33,7 +33,7 @@ export const aboutData: AboutData = {
       href: "https://github.com",
       icon: Github,
       hoverColor: "hover:bg-neutral-100",
-      active: false, // set true jika ingin ditampilkan
+      active: false,
     },
     {
       label: "Instagram",

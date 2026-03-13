@@ -10,8 +10,6 @@ interface AboutBioProps {
 export default function AboutBio({ data }: AboutBioProps) {
   return (
     <div className="flex flex-col max-w-xl md:mt-4">
-
-      {/* Heading */}
       <h2 className="text-4xl font-bold tracking-tight text-foreground leading-tight">
         <TextType
           text={[`Hello, I'm ${data.name}`, `Welcome to my Portfolio`]}
@@ -26,11 +24,7 @@ export default function AboutBio({ data }: AboutBioProps) {
           as="span"
         />
       </h2>
-
-      {/* Divider */}
       <div className="mt-5 mb-6 w-10 h-[3px] bg-[#5227FF] rounded-full" />
-
-      {/* Bio paragraphs */}
       <div className="space-y-4">
         {data.paragraphs.map((text, index) => (
           <p
@@ -42,7 +36,6 @@ export default function AboutBio({ data }: AboutBioProps) {
         ))}
       </div>
 
-      {/* Meta info */}
       <div className="flex flex-wrap gap-x-6 gap-y-2 mt-8 text-[13px] text-muted-foreground font-medium">
         <span className="flex items-center gap-1.5">
           <MapPin size={13} className="text-muted-foreground/60" />
@@ -54,10 +47,7 @@ export default function AboutBio({ data }: AboutBioProps) {
         </span>
       </div>
 
-      {/* CTA + Socials */}
       <div className="mt-8 flex flex-col gap-6">
-
-        {/* Download CV */}
         <a
           href={data.cvUrl}
           target="_blank"
@@ -78,7 +68,6 @@ export default function AboutBio({ data }: AboutBioProps) {
           />
         </a>
 
-        {/* Socials */}
         <div className="flex flex-col gap-3">
           <p className="text-[11px] font-semibold tracking-[0.15em] uppercase text-muted-foreground/60">
             Connect

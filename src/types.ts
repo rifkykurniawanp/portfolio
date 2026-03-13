@@ -94,16 +94,39 @@ export type Organization = {
 }
 
 export type Project = {
+  id: number
   slug: string
+
   title: string
   description: string
   longDescription?: string
+
   image: string
   images?: string[]
+
   tech: string[]
-  demo: string
-  github: string
+
+  demo?: string
+  github?: string
+
   featured?: boolean
-  status?: "completed" | "in-progress" | "archived"
+  status?: "full-stack" | "front-end" | "back-end" | "basic"
   year?: string
+
+  /* NEW DETAIL PAGE DATA */
+
+  projectType?: "Individual" | "Team"
+  projectBy?: string
+  period?: string
+
+  tools?: string[]
+
+  about?: {
+    goal: string
+    process: string
+    output: string
+  }
+
+  method?: string[]
 }
+

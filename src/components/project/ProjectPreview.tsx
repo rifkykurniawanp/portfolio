@@ -1,7 +1,9 @@
 "use client"
+import { useEffect, useState, useCallback } from "react"
+import { createPortal } from "react-dom"
 import Image from "next/image"
 import Link from "next/link"
-import { Github, ExternalLink, X, ArrowRight } from "lucide-react"
+import { Github, ExternalLink, X, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { type Project } from "@/types"
 import { cn } from "@/lib/utils"
@@ -11,128 +13,180 @@ interface ProjectPreviewProps {
   onClose: () => void
 }
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? "100%" : "-100%",
+    opacity: 0,
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? "100%" : "-100%",
+    opacity: 0,
+  }),
+}
+
 export default function ProjectPreview({ project, onClose }: ProjectPreviewProps) {
-  return (
+  const [mounted, setMounted] = useState(false)
+  const [[page, direction], setPage] = useState([0, 0])
+  const [isPaused, setIsPaused] = useState(false)
+
+  const allImages = project ? [project.image, ...(project.images || [])] : []
+  
+  // Calculate index to ensure it always maps correctly to the array length
+  const imageIndex = ((page % allImages.length) + allImages.length) % allImages.length
+
+  const paginate = useCallback((newDirection: number) => {
+    setPage([page + newDirection, newDirection])
+  }, [page])
+
+  // Auto-play logic: 2.5s interval
+  useEffect(() => {
+    if (!project || isPaused) return
+
+    const timer = setInterval(() => {
+      // Moves forward; once it hits the end, the modulo math handles the "rollback" to 0
+      paginate(1)
+    }, 2500) 
+
+    return () => clearInterval(timer)
+  }, [project, isPaused, paginate])
+
+  useEffect(() => {
+    setMounted(true)
+    if (project) {
+      setPage([0, 0])
+      document.body.style.overflow = "hidden"
+    }
+    return () => { document.body.style.overflow = "unset" }
+  }, [project])
+
+  if (!mounted || !project) return null
+
+  return createPortal(
     <AnimatePresence>
-      {project && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-background/80 backdrop-blur-md flex items-center justify-center z-[9999] p-4"
+        onClick={onClose}
+      >
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-background/80 backdrop-blur-md flex items-center justify-center z-50 p-4"
-          onClick={onClose}
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          className="relative w-full max-w-2xl bg-card border border-border/50 rounded-[2.5rem] overflow-hidden shadow-2xl"
+          onClick={(e) => e.stopPropagation()}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className={cn(
-              "relative w-full max-w-2xl rounded-[2.5rem] overflow-hidden",
-              "bg-card border border-border/50",
-              "shadow-2xl shadow-[#5227FF]/10"
-            )}
-            onClick={(e) => e.stopPropagation()}
+          {/* Close Button */}
+          <button 
+            onClick={onClose} 
+            className="absolute top-5 right-5 z-50 w-10 h-10 flex items-center justify-center bg-black/40 hover:bg-black/60 backdrop-blur-md rounded-full text-white transition-all border border-white/10"
           >
-            {/* Close Button */}
-            <button
-              onClick={onClose}
-              className={cn(
-                "absolute top-5 right-5 z-20",
-                "w-10 h-10 rounded-full flex items-center justify-center",
-                "bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-md border border-white/20"
-              )}
-            >
-              <X size={18} />
-            </button>
+            <X size={18} />
+          </button>
 
-            {/* Image Section */}
-            <div className="relative h-72 w-full p-3">
-              <div className="relative h-full w-full overflow-hidden rounded-[1.8rem]">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
+          {/* Image Section */}
+          <div className="relative h-80 w-full p-3">
+            <div className="relative h-full w-full overflow-hidden rounded-[1.8rem] bg-muted">
+              {/* Progress Bar (Matches 2.5s) */}
+              {!isPaused && (
+                <motion.div 
+                  key={page}
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 2.5, ease: "linear" }}
+                  className="absolute top-0 left-0 right-0 h-1 bg-[#5227FF] z-30 origin-left"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                
-                {/* Overlay Title for Image */}
-                <div className="absolute bottom-6 left-8">
-                   <h3 className="text-2xl font-bold text-white tracking-tight">{project.title}</h3>
-                   <p className="text-white/70 text-sm font-medium">{project.year}</p>
-                </div>
-              </div>
-            </div>
+              )}
 
-            {/* Content Section */}
-            <div className="px-8 pb-10 pt-4">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-[11px] font-semibold px-3 py-1 rounded-full bg-muted text-muted-foreground border border-border/50"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-2 shrink-0">
-                  {project.demo && (
-                    <a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold",
-                        "bg-[#5227FF] text-white hover:bg-[#4318d4] transition-all"
-                      )}
-                    >
-                      <ExternalLink size={14} /> Live Demo
-                    </a>
-                  )}
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold",
-                        "border border-border hover:bg-muted transition-all"
-                      )}
-                    >
-                      <Github size={14} /> Code
-                    </a>
-                  )}
-                </div>
-              </div>
-
-              <p className="text-sm text-muted-foreground leading-relaxed mb-8">
-                {project.description}
-              </p>
-
-              <div className="flex items-center justify-between border-t border-border/50 pt-6">
-                <Link
-                  href={`/project/${project.slug}`}
-                  className={cn(
-                    "group flex items-center gap-2 text-sm font-bold text-foreground",
-                    "hover:text-[#5227FF] transition-colors"
-                  )}
+              <AnimatePresence initial={false} custom={direction}>
+                <motion.div
+                  key={page}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ 
+                    x: { type: "spring", stiffness: 400, damping: 35 }, 
+                    opacity: { duration: 0.2 } 
+                  }}
+                  className="absolute inset-0"
                 >
-                  View Case Study 
-                  <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-                </Link>
-                
-                <span className="text-[10px] uppercase tracking-widest font-black text-muted-foreground/30">
-                  Quick View
-                </span>
+                  <Image
+                    src={allImages[imageIndex]}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Overlays */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+              
+              {/* Navigation Buttons */}
+              <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between z-20">
+                <button onClick={() => paginate(-1)} className="p-2 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-sm transition-all border border-white/5">
+                  <ChevronLeft size={20} />
+                </button>
+                <button onClick={() => paginate(1)} className="p-2 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-sm transition-all border border-white/5">
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+
+              <div className="absolute bottom-6 left-8 z-20">
+                <h3 className="text-2xl font-bold text-white tracking-tight">{project.title}</h3>
+                <div className="flex items-center gap-2">
+                   <span className="text-white/70 text-sm">{project.year}</span>
+                   <span className="w-1 h-1 bg-white/30 rounded-full" />
+                   <span className="text-white/70 text-sm font-mono">{imageIndex + 1} / {allImages.length}</span>
+                </div>
               </div>
             </div>
-          </motion.div>
+          </div>
+
+          {/* Content Section */}
+          <div className="px-8 pb-10 pt-4">
+            <div className="flex flex-wrap gap-2 mb-6">
+              {project.tech.map((tech) => (
+                <span key={tech} className="text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full bg-muted text-muted-foreground border border-border/50">
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            <p className="text-sm text-muted-foreground leading-relaxed mb-8 line-clamp-3">
+              {project.description}
+            </p>
+
+            <div className="flex items-center justify-between border-t border-border/50 pt-6">
+              <Link
+                href={`/project/${project.slug}`}
+                className="group flex items-center gap-2 text-sm font-bold text-foreground hover:text-[#5227FF] transition-colors"
+              >
+                View Case Study
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+              
+              <div className="flex items-center gap-4">
+                {project.github && <a href={project.github} target="_blank" className="text-muted-foreground hover:text-foreground transition-all hover:scale-110"><Github size={18} /></a>}
+                {project.demo && <a href={project.demo} target="_blank" className="text-muted-foreground hover:text-foreground transition-all hover:scale-110"><ExternalLink size={18} /></a>}
+              </div>
+            </div>
+          </div>
         </motion.div>
-      )}
-    </AnimatePresence>
+      </motion.div>
+    </AnimatePresence>,
+    document.body
   )
 }

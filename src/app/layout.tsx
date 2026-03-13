@@ -37,8 +37,6 @@ const navItems: NavItem[] = [
   { label: "Contact me", href: "#contactme" },
 ]
 
-// app/layout.tsx
-// ... (semua import & config font tetap sama)
 
 export default function RootLayout({
   children,
