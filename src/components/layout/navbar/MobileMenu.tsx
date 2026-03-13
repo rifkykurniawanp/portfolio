@@ -1,6 +1,8 @@
 "use client"
+
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { usePathname } from "next/navigation"
 import { NavItem } from "@/types"
 import { cn } from "@/lib/utils"
 
@@ -10,6 +12,10 @@ type Props = {
 }
 
 export default function MobileMenu({ items, close }: Props) {
+
+  const pathname = usePathname()
+  const isHome = pathname === "/"
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -8 }}
@@ -22,27 +28,38 @@ export default function MobileMenu({ items, close }: Props) {
       )}
     >
       <div className="flex flex-col items-center gap-1 py-4 px-6">
-        {items.map((item, i) => (
-          <motion.div
-            key={item.label}
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.05, duration: 0.2 }}
-            className="w-full"
-          >
-            <Link
-              href={item.href}
-              onClick={close}
-              className={cn(
-                "block w-full text-center py-3 rounded-lg text-sm font-medium",
-                "text-muted-foreground hover:text-foreground",
-                "hover:bg-muted transition-all duration-200"
-              )}
+
+        {items.map((item, i) => {
+
+          const href = isHome
+            ? item.href
+            : `/${item.href}`
+
+          return (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05, duration: 0.2 }}
+              className="w-full"
             >
-              {item.label}
-            </Link>
-          </motion.div>
-        ))}
+
+              <Link
+                href={href}
+                onClick={close}
+                className={cn(
+                  "block w-full text-center py-3 rounded-lg text-sm font-medium",
+                  "text-muted-foreground hover:text-foreground",
+                  "hover:bg-muted transition-all duration-200"
+                )}
+              >
+                {item.label}
+              </Link>
+
+            </motion.div>
+          )
+        })}
+
       </div>
     </motion.div>
   )

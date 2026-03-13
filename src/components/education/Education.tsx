@@ -11,17 +11,26 @@ export default function Education() {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
-          observer.unobserve(entry.target)
+          observer.disconnect()
         }
       },
-      { threshold: 0.05, rootMargin: "0px 0px -80px 0px" }
+      { threshold: 0.1 }
     )
-    if (sectionRef.current) observer.observe(sectionRef.current)
-    return () => observer.disconnect()
+
+    observer.observe(el)
+    const timeout = setTimeout(() => setIsVisible(true), 600)
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(timeout)
+    }
   }, [])
 
   return (
@@ -34,10 +43,14 @@ export default function Education() {
           </h2>
         </header>
 
-        <div className={cn(
-          "transition-opacity duration-700",
-          isVisible ? "opacity-100" : "opacity-0"
-        )}>
+        <div
+          className={cn(
+            "transition-all duration-700 ease-out",
+            isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-6"
+          )}
+        >
           {/* Academic */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
             {academicEntries.map((entry) => (
@@ -53,6 +66,7 @@ export default function Education() {
             <h3 className="text-xl font-semibold mb-8 text-foreground">
               Certifications
             </h3>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {certifications.map((cert) => (
                 <CertificationCard
@@ -61,8 +75,10 @@ export default function Education() {
                 />
               ))}
             </div>
+
           </div>
         </div>
+
       </div>
     </section>
   )
