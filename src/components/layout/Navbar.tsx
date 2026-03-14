@@ -16,10 +16,6 @@ type Props = {
   items: NavItem[]
 }
 
-/* -----------------------------
-   Scroll Spy Hook
-------------------------------*/
-
 function useActiveSection(items: NavItem[], enabled: boolean) {
   const [active, setActive] = useState("")
 
@@ -57,10 +53,6 @@ function useActiveSection(items: NavItem[], enabled: boolean) {
   return active
 }
 
-/* -----------------------------
-   Theme Toggle
-------------------------------*/
-
 function ThemeToggle() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -94,10 +86,6 @@ function ThemeToggle() {
   )
 }
 
-/* -----------------------------
-   Navbar
-------------------------------*/
-
 export default function Navbar({ name, items }: Props) {
 
   const pathname = usePathname()
@@ -117,7 +105,6 @@ export default function Navbar({ name, items }: Props) {
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
 
-        {/* Logo */}
         <Link
           href="/"
           className="font-bold text-lg tracking-tighter text-foreground hover:opacity-70 transition"
@@ -126,23 +113,16 @@ export default function Navbar({ name, items }: Props) {
           <span className="text-[#5227FF]">.</span>
         </Link>
 
-        {/* Desktop Menu */}
         <div className="hidden md:flex gap-8 items-center">
-
           {items.map((item) => {
-
             const id = item.href.replace("#", "")
-
             const isActive = isHome && active === id
-
             const href =
               isHome
                 ? item.href
                 : `/${item.href}`
-
             return (
               <div key={item.label} className="relative">
-
                 <Link
                   href={href}
                   className={cn(
@@ -154,7 +134,6 @@ export default function Navbar({ name, items }: Props) {
                 >
                   {item.label}
                 </Link>
-
                 {isActive && (
                   <motion.div
                     layoutId="navbar-indicator"
@@ -173,12 +152,8 @@ export default function Navbar({ name, items }: Props) {
 
         </div>
 
-        {/* Right Side */}
         <div className="flex items-center gap-2">
-
           <ThemeToggle />
-
-          {/* Hamburger */}
           <button
             className="md:hidden p-2 text-muted-foreground hover:text-[#5227FF]"
             onClick={() => setOpen(!open)}
@@ -194,7 +169,7 @@ export default function Navbar({ name, items }: Props) {
                     : "w-6"
                 )}
               />
-
+                 
               <span
                 className={cn(
                   "h-[2px] bg-current rounded-full transition-all duration-300",

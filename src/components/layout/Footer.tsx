@@ -11,12 +11,10 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
 
-          {/* Copyright */}
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Rifky Kurniawan Putra
           </p>
 
-          {/* Nav links */}
           <nav className="flex items-center gap-6 text-sm text-muted-foreground">
             {["about", "project", "experience", "contactme"].map((href) => (
               <a
@@ -29,7 +27,6 @@ export default function Footer() {
             ))}
           </nav>
 
-          {/* Social icons */}
           <div className="flex items-center gap-2">
             {[
               {

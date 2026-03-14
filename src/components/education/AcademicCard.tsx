@@ -48,12 +48,11 @@ export default function AcademicCard({ entry }: AcademicCardProps) {
       "transition-all duration-300",
       "hover:-translate-y-1 hover:shadow-lg hover:border-border/80"
     )}>
-      {/* Glow on hover */}
+
       <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300">
         <div className="absolute inset-0 rounded-xl bg-indigo-500/5 dark:bg-indigo-500/10 blur-xl" />
       </div>
 
-      {/* Logo */}
       <div className="absolute top-4 right-4 w-14 h-14 flex items-center justify-center">
         <Image
           src={entry.logo}
@@ -65,7 +64,6 @@ export default function AcademicCard({ entry }: AcademicCardProps) {
         />
       </div>
 
-      {/* Header */}
       {!hasSubEntries && (
         <p className="text-xs text-muted-foreground/60">{entry.year}</p>
       )}
@@ -73,7 +71,6 @@ export default function AcademicCard({ entry }: AcademicCardProps) {
         {entry.institution}
       </h3>
 
-      {/* Single entry */}
       {!hasSubEntries && (
         <>
           <p className="text-sm text-muted-foreground mt-0.5">{entry.program}</p>
@@ -93,7 +90,6 @@ export default function AcademicCard({ entry }: AcademicCardProps) {
         </>
       )}
 
-      {/* Timeline sub-entries */}
       {hasSubEntries && (
         <div className="mt-4">
           {entry.subEntries!.map((sub, i) => (

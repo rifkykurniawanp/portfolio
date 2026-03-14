@@ -4,14 +4,7 @@ import { useEffect, useState, useCallback } from "react"
 import { createPortal } from "react-dom"
 import Image from "next/image"
 import Link from "next/link"
-import {
-  Github,
-  ExternalLink,
-  X,
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react"
+import {Github, ExternalLink, X, ArrowRight, ChevronLeft, ChevronRight,} from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { type Project } from "@/types"
 import { cn } from "@/lib/utils"
@@ -41,7 +34,6 @@ const slideVariants = {
 export default function ProjectPreview({ project, onClose }: ProjectPreviewProps) {
   const [mounted, setMounted] = useState(false)
   const [[page, direction], setPage] = useState<[number, number]>([0, 0])
-  const [isPaused, setIsPaused] = useState(false)
 
   const allImages = project ? [project.image, ...(project.images || [])] : []
 
@@ -54,18 +46,6 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
     setPage(([prev]) => [prev + newDirection, newDirection])
   }, [])
 
-  // autoplay
-  useEffect(() => {
-    if (!project || isPaused || allImages.length <= 1) return
-
-    const timer = setInterval(() => {
-      setPage(([prev]) => [prev + 1, 1])
-    }, 2500)
-
-    return () => clearInterval(timer)
-  }, [project, isPaused, allImages.length])
-
-  // mount + scroll lock
   useEffect(() => {
     setMounted(true)
 
@@ -79,7 +59,6 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
     }
   }, [project])
 
-  // ESC close
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose()
@@ -106,11 +85,8 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           className="relative w-full max-w-2xl bg-card border border-border/50 rounded-[2.5rem] overflow-hidden shadow-2xl"
           onClick={(e) => e.stopPropagation()}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
         >
 
-          {/* Close */}
           <button
             onClick={onClose}
             className="absolute top-5 right-5 z-50 w-10 h-10 flex items-center justify-center bg-black/40 hover:bg-black/60 backdrop-blur-md rounded-full text-white transition-all border border-white/10"
@@ -118,19 +94,8 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
             <X size={18} />
           </button>
 
-          {/* Image Section */}
           <div className="relative h-80 w-full p-3">
             <div className="relative h-full w-full overflow-hidden rounded-[1.8rem] bg-muted">
-
-              {!isPaused && allImages.length > 1 && (
-                <motion.div
-                  key={page}
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 2.5, ease: "linear" }}
-                  className="absolute top-0 left-0 right-0 h-1 bg-[#5227FF] z-30 origin-left"
-                />
-              )}
 
               <AnimatePresence initial={false} custom={direction}>
                 <motion.div
@@ -157,10 +122,8 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
                 </motion.div>
               </AnimatePresence>
 
-              {/* gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
 
-              {/* navigation */}
               {allImages.length > 1 && (
                 <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between z-20">
                   <button
@@ -179,7 +142,6 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
                 </div>
               )}
 
-              {/* title */}
               <div className="absolute bottom-6 left-8 z-20">
                 <h3 className="text-2xl font-bold text-white tracking-tight">
                   {project.title}
@@ -202,9 +164,7 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
             </div>
           </div>
 
-          {/* Content */}
           <div className="px-8 pb-10 pt-4">
-
             <div className="flex flex-wrap gap-2 mb-6">
               {project.tech.map((tech) => (
                 <span
@@ -221,7 +181,6 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
             </p>
 
             <div className="flex items-center justify-between border-t border-border/50 pt-6">
-
               <Link
                 href={`/project/${project.slug}`}
                 className="group flex items-center gap-2 text-sm font-bold text-foreground hover:text-[#5227FF] transition-colors"
@@ -229,7 +188,6 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
                 View Case Study
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </Link>
-
               <div className="flex items-center gap-4">
                 {project.github && (
                   <a
@@ -251,9 +209,7 @@ export default function ProjectPreview({ project, onClose }: ProjectPreviewProps
                   </a>
                 )}
               </div>
-
             </div>
-
           </div>
 
         </motion.div>

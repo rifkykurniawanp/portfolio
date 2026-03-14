@@ -34,25 +34,20 @@ export default function ContactMe() {
     <section id="contactme" className="w-full">
 
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-20 md:py-28">
-
-        {/* Header */}
         <header className="text-center mb-12 md:mb-16">
-
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
             Let&apos;s Work Together
           </h2>
-
+         
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto leading-relaxed text-sm md:text-base">
             Interested in collaborating or discussing a project?
             Fill out the form or reach out through any platform below.
           </p>
 
-          {/* Social */}
           <nav
             aria-label="Contact links"
             className="flex flex-wrap justify-center gap-3 mt-6 md:mt-8"
           >
-
             {socialLinks.map(({ href, icon, label }) => {
 
               const external = !href.startsWith("mailto")
@@ -86,8 +81,6 @@ export default function ContactMe() {
 
         </header>
 
-
-        {/* Form */}
         <div
           className={cn(
             "max-w-2xl mx-auto",
@@ -98,11 +91,9 @@ export default function ContactMe() {
             "shadow-sm shadow-black/[0.02] dark:shadow-white/[0.02]"
           )}
         >
-
           <ContactForm />
-
         </div>
-
+        
       </div>
 
     </section>

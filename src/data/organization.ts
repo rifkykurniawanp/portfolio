@@ -7,6 +7,7 @@ export const organizations: Organization[] = [
     role: "Instructor",
     image: "/picture/organization/instructor.jpg",
     logo: "/logo/imm.png",
+    period: "2019 - 2020"
   },
   {
     id: "imm-semarang-secretary",
@@ -14,6 +15,7 @@ export const organizations: Organization[] = [
     role: "Secretary of Research & Knowledge Development",
     image: "/picture/organization/imm-semarang.webp",
     logo: "/logo/imm.png",
+    period: "2018 - 2019"
   },
   {
     id: "imm-fk-unimus-president",
@@ -21,6 +23,7 @@ export const organizations: Organization[] = [
     role: "President",
     image: "/picture/organization/imm-fk-unimus.webp",
     logo: "/logo/imm.png",
+    period: "2018 - 2019"
   },
   {
     id: "imm-fk-unimus-secretary",
@@ -28,6 +31,7 @@ export const organizations: Organization[] = [
     role: "Organization Secretary",
     image: "/picture/organization/imm-unimus.jpg",
     logo: "/logo/imm.png",
+    period: "2017 - 2018"
   },
   {
     id: "madani-hublu-it",
@@ -35,5 +39,6 @@ export const organizations: Organization[] = [
     role: "Head of External Relations – Information and Technology (HUBLU-IT)",
     image: "/picture/organization/fuldfk.webp",
     logo: "/logo/madani.webp",
+    period: "2018 - 2019"
   },
 ]

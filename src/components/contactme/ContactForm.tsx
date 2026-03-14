@@ -94,7 +94,6 @@ export default function ContactForm() {
 
   return (
     <div>
-      {/* Step label */}
       <p className="text-xs text-muted-foreground font-medium mb-8 uppercase tracking-widest">
         Step {currentStep} of 3
       </p>
@@ -106,7 +105,6 @@ export default function ContactForm() {
         disableStepIndicators={true}
         nextButtonText="Continue →"
       >
-        {/* Step 1 */}
         <Step>
           <div className="space-y-6">
             <div>
@@ -132,7 +130,6 @@ export default function ContactForm() {
           </div>
         </Step>
 
-        {/* Step 2 */}
         <Step>
           <div className="space-y-6">
             <div>
@@ -149,7 +146,6 @@ export default function ContactForm() {
           </div>
         </Step>
 
-        {/* Step 3 */}
         <Step>
           <div className="space-y-6">
             <div>

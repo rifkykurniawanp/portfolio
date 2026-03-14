@@ -8,8 +8,6 @@ export default function SkillSet() {
       <h3 className="text-xl font-semibold mb-10 text-foreground">Skill Set</h3>
 
       <div className="grid md:grid-cols-2 gap-12">
-
-        {/* Software Engineering */}
         <div>
           <h4 className="font-medium mb-6 text-foreground">Software Engineering</h4>
           <div className="grid grid-cols-3 gap-7">
@@ -35,7 +33,6 @@ export default function SkillSet() {
         </div>
 
         <div>
-          {/* Clinical Skills */}
           <h4 className="font-medium mb-6 text-foreground">Clinical & Medical</h4>
           <div className="flex flex-wrap gap-3">
             {medicalSkills.map((skill) => (
@@ -53,7 +50,6 @@ export default function SkillSet() {
             ))}
           </div>
 
-          {/* Soft Skills */}
           <div className="mt-10">
             <h4 className="font-medium mb-6 text-foreground">Soft Skills</h4>
             <div className="flex flex-wrap gap-3">

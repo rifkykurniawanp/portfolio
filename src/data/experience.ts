@@ -6,7 +6,7 @@ export const experiences: ExperienceEntry[] = [
       {
         name: "Hafida 3 Primary Clinic at PT Longwell",
         location: "Pemalang, Indonesia",
-        logo: "HL",
+        logo: "/logo/institusi/hafida3.svg",
         period: "January 2026 – Present",
         points: [
           "Managed primary and occupational healthcare services for company employees, contributing to decrease the number of accident in workplace medical incidents through early intervention, preventive care, and BPJS-based treatment management.",
@@ -18,7 +18,7 @@ export const experiences: ExperienceEntry[] = [
       {
         name: "Gondo Clinic",
         location: "Pemalang, Indonesia",
-        logo: "GC",
+        logo: "/logo/institusi/gondo.png",
         period: "July 2025 – December 2025",
         points: [
           "Provided comprehensive outpatient and emergency consultations for 5–10 patients per day, managing diverse acute and chronic conditions to ensure timely and evidence-based clinical care.",
@@ -35,7 +35,7 @@ export const experiences: ExperienceEntry[] = [
       {
         name: "Puskesmas Kauman",
         location: "Tulungagung, Indonesia",
-        logo: "PK",
+        logo: "/logo/institusi/puskesmas.png",
         period: "November 2024 – May 2025",
         points: [
           "Conducted comprehensive outpatient examinations for 80–100 patients per day, managing diverse acute and chronic primary care conditions to ensure efficient and guideline-based treatment delivery.",
@@ -47,7 +47,7 @@ export const experiences: ExperienceEntry[] = [
       {
         name: "Bhayangkara Hospital",
         location: "Tulungagung, Indonesia",
-        logo: "BH",
+        logo: "/logo/institusi/bhayangkara.svg",
         period: "May 2024 – November 2024",
         points: [
           "Collaborated within a multidisciplinary emergency team during shift-based rotations, contributing to the management of 15–20 acute cases per shift to ensure rapid stabilization and coordinated care.",
@@ -64,7 +64,7 @@ export const experiences: ExperienceEntry[] = [
       {
         name: "UNIMUS",
         location: "Semarang, Indonesia",
-        logo: "/logo/unimus.png",
+        logo: "/logo/institusi/unimus.png",
         period: "2018 – 2019",
         points: [
           "Facilitated practical medical skills sessions for over 200 medical students per semester, guiding systematic history taking and physical examination techniques to improve OSCE readiness and clinical accuracy.",

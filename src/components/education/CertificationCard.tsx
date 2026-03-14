@@ -28,7 +28,6 @@ export default function CertificationCard({ cert }: CertificationCardProps) {
           "hover:-translate-y-1 hover:shadow-lg hover:border-border/80"
         )}
       >
-        {/* Header */}
         <div className="flex items-start gap-3 p-5">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-muted">
             <Image
@@ -58,7 +57,6 @@ export default function CertificationCard({ cert }: CertificationCardProps) {
           </div>
         </div>
 
-        {/* Image grid */}
         {allImages.length > 0 && (
           <div className="px-3 pb-3">
             <div
@@ -98,7 +96,6 @@ export default function CertificationCard({ cert }: CertificationCardProps) {
         )}
       </div>
 
-      {/* Lightbox */}
       {lightbox &&
         createPortal(
           <div

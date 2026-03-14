@@ -11,17 +11,21 @@ export const projects: Project[] = [
   longDescription:
   "RUIND EDU-COMMERCE is a web-based integrated platform...",
 
-  image: "/picture/project/final-project/homepage.png",
+  image: "/picture/project/final-project/homepage.webp",
 
   images: [
-    "/picture/project/final-project/admindashboard.png",
-    "/picture/project/final-project/adminlogin.png",
+    "/picture/project/final-project/admindashboard.webp",
+    "/picture/project/final-project/adminlogin.webp",
+    "/picture/project/final-project/coursedetail.webp",
+    "/picture/project/final-project/coursepage.webp",
+    "/picture/project/final-project/filter.webp",
+    "/picture/project/final-project/mobileview.webp",
   ],
 
-  tech: ["Next.js","TypeScript","Tailwind"],
+  tech: ["Next.js","TypeScript","Tailwind", "Radix UI","shadcn/ui","React"],
 
   demo: "https://your-demo-link.com",
-  github: "https://github.com/rifkykurniawanp/project-one",
+  github: "https://final-project-fe-rifkykurniawanp-3w739adr6.vercel.app/",
 
   featured: true,
   status: "full-stack",
@@ -71,11 +75,12 @@ export const projects: Project[] = [
   longDescription:
   "REVO FUN is a web-based on html and css game platform with three games in it...",
 
-  image: "/picture/project/milestone-2.png",
+  image: "/picture/project/milestone-2.webp",
 
   images: [
-    "/picture/project/final-project/admindashboard.png",
-    "/picture/project/final-project/adminlogin.png",
+    "/picture/project/milestone-2/game1.webp",
+    "/picture/project/milestone-2/game2.webp",
+    "/picture/project/milestone-2/game3.webp",
   ],
 
   tech: ["Next.js","TypeScript","Tailwind"],
