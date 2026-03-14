@@ -9,6 +9,7 @@ import { ThemeProvider } from "next-themes"
 import { NavItem } from "@/types"
 import { cn } from "@/lib/utils"
 import { Toaster } from "sonner"
+import PageLoader from "@/components/animations/PageLoader"
 
 const geist = Geist({
   subsets: ["latin"],
@@ -67,13 +68,12 @@ export default function RootLayout({
             <div className="absolute top-1/3 left-1/2 w-[600px] h-[600px] -translate-x-1/2 bg-indigo-500/10 blur-[140px] rounded-full dark:bg-indigo-500/20" />
             <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-400/10 blur-[120px] rounded-full dark:bg-blue-400/20" />
           </div>
-
+          <PageLoader />
           <Navbar name="Rifky Kurniawan Putra" items={navItems} />
 
           <div className="relative z-10">
             <main className="max-w-6xl mx-auto px-6 py-8">
 
-              {/* ✦ Glassmorphism frame */}
               <div
                 className={cn(
                   "rounded-2xl p-6 md:p-10",
