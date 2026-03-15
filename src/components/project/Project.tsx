@@ -1,3 +1,4 @@
+"use client"
 import { useState, useMemo } from "react"
 import { type Project } from "@/types"
 import { projects } from "@/data/project"
@@ -15,12 +16,11 @@ export default function Project() {
   return (
     <section id="project" className="w-full">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-24">
-
-        <div className="mb-12">
-          <h2 className="text-3xl font-semibold text-foreground">Projects</h2>
+        <div className="mb-10">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Projects</h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {displayed.map((project) => (
             <ProjectCard
               key={project.slug}

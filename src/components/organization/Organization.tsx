@@ -24,7 +24,7 @@ export default function Organizations() {
     <section id="organization" className="w-full">
       <div className="max-w-6xl mx-auto px-6 py-24">
 
-        <header className="flex items-end justify-between mb-16">
+        <header className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-16 gap-4 sm:gap-0">
           <h2 className="text-3xl font-semibold tracking-tight text-foreground">
             Organizations
           </h2>
@@ -52,12 +52,12 @@ export default function Organizations() {
         <div className="relative -mx-4 px-4">
           <div
             ref={scrollRef}
-            className="flex gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-12 scroll-smooth"
+            className="flex gap-4 sm:gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth"
           >
             {organizations.map((org, index) => (
               <div
                 key={`${org.name}-${index}`}
-                className="snap-start shrink-0 w-[280px] sm:w-[320px] md:w-[380px]"
+                className="snap-start flex-shrink-0 w-full sm:w-[320px] md:w-[380px] lg:w-[420px]"
               >
                 <OrganizationCard org={org} />
               </div>

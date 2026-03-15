@@ -1,28 +1,50 @@
 "use client"
 
 import dynamic from "next/dynamic"
+import LazySection from "./LazySection"
 
-export const Education = dynamic(
-  () => import("@/components/education/Education"),
-  { ssr: false }
-)
+const EducationComponent = dynamic(() => import("@/components/education/Education"))
+const ExperienceComponent = dynamic(() => import("@/components/experience/Experience"))
+const OrganizationComponent = dynamic(() => import("@/components/organization/Organization"))
+const ProjectComponent = dynamic(() => import("@/components/project/Project"))
+const ContactComponent = dynamic(() => import("@/components/contactme/Contactme"))
 
-export const Experience = dynamic(
-  () => import("@/components/experience/Experience"),
-  { ssr: false }
-)
+export function Education() {
+  return (
+    <LazySection>
+      <EducationComponent />
+    </LazySection>
+  )
+}
 
-export const Organization = dynamic(
-  () => import("@/components/organization/Organization"),
-  { ssr: false }
-)
+export function Experience() {
+  return (
+    <LazySection>
+      <ExperienceComponent />
+    </LazySection>
+  )
+}
 
-export const Project = dynamic(
-  () => import("@/components/project/Project"),
-  { ssr: false }
-)
+export function Organization() {
+  return (
+    <LazySection>
+      <OrganizationComponent />
+    </LazySection>
+  )
+}
 
-export const Contact = dynamic(
-  () => import("@/components/contactme/Contactme"),
-  { ssr: false }
-)
+export function Project() {
+  return (
+    <LazySection>
+      <ProjectComponent />
+    </LazySection>
+  )
+}
+
+export function Contact() {
+  return (
+    <LazySection>
+      <ContactComponent />
+    </LazySection>
+  )
+}

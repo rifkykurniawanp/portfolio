@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Github, ExternalLink, Maximize2 } from "lucide-react"
+import { Github, ExternalLink } from "lucide-react"
 import { type Project } from "@/types"
 import { cn } from "@/lib/utils"
 
@@ -9,100 +9,120 @@ interface ProjectCardProps {
   onPreview: (project: Project) => void
 }
 
+const statusStyles: Record<string, string> = {
+  "full-stack": "bg-emerald-500/80 text-white",
+  "front-end":  "bg-amber-500/80 text-white",
+  "back-end":   "bg-neutral-500/80 text-white",
+  "basic":      "bg-blue-500/80 text-white",
+}
+
 export default function ProjectCard({ project, onPreview }: ProjectCardProps) {
   return (
-    <div className={cn(
-  "group relative overflow-hidden rounded-[2rem]",
-  "border border-border/40 bg-card/40 backdrop-blur-sm",
-  "transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#5227FF]/5 hover:border-border/80"
-)}>
-
-  <div
-    className="relative overflow-hidden h-52 m-2 rounded-[1.6rem] cursor-pointer"
-    onClick={() => onPreview(project)} // <-- klik gambar langsung
-  >
-    <Image
-      src={project.image}
-      alt={project.title}
-      fill
-      className="object-cover transition-transform duration-700 group-hover:scale-110"
-    />
-
-    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-      <div className="flex flex-wrap gap-1.5 mb-4">
-        {project.tech.slice(0, 3).map((tech) => (
-          <span
-            key={tech}
-            className="text-[10px] font-medium bg-white/10 backdrop-blur-md text-white border border-white/10 px-2.5 py-0.5 rounded-full"
-          >
-            {tech}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex items-center gap-2">
-        {project.demo && (
-          <a
-            href={project.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="p-2 bg-white text-black rounded-full hover:bg-[#5227FF] hover:text-white transition-colors duration-300"
-          >
-            <ExternalLink size={14} />
-          </a>
-        )}
-        {project.github && (
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="p-2 bg-white/20 backdrop-blur-md text-white rounded-full hover:bg-white/40 transition-colors duration-300"
-          >
-            <Github size={14} />
-          </a>
-        )}
-      </div>
-    </div>
-
-    {project.status && (
-      <div className="absolute top-3 left-3">
-        <span className={cn(
-          "text-[9px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full backdrop-blur-md border border-white/10 shadow-sm",
-          project.status === "full-stack" && "bg-emerald-500/80 text-white",
-          project.status === "front-end" && "bg-amber-500/80 text-white",
-          project.status === "back-end" && "bg-neutral-500/80 text-white",
-          project.status === "basic" && "bg-blue-500/80 text-white",
-        )}>
-          {project.status}
-        </span>
-      </div>
-    )}
-  </div>
-
-  <div className="p-6 pt-2">
-    <div className="flex items-start justify-between gap-2">
-      <h3 className="font-bold text-base text-foreground group-hover:text-[#5227FF] transition-colors duration-300">
-        {project.title}
-      </h3>
-      {project.year && (
-        <span className="text-[11px] font-medium text-muted-foreground/40 mt-1">{project.year}</span>
+    <div
+      className={cn(
+        "group relative overflow-hidden rounded-2xl",
+        "border border-border/40 bg-card/50",
+        "transition-[transform,box-shadow] duration-300 ease-out",
+        "hover:-translate-y-1 hover:shadow-lg hover:shadow-black/10 hover:border-border/70"
       )}
-    </div>
-    <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-2">
-      {project.description}
-    </p>
-    
-    <Link
-      href={`/project/${project.slug}`}
-      onClick={(e) => e.stopPropagation()}
-      className="mt-4 inline-flex items-center text-[12px] font-semibold text-foreground/70 hover:text-[#5227FF] transition-colors group/link"
     >
-      View Details
-      <span className="ml-1 transition-transform group-hover/link:translate-x-1">→</span>
-    </Link>
-  </div>
-</div>
+      <div
+        className="relative m-2 overflow-hidden rounded-xl bg-muted cursor-pointer"
+        style={{ aspectRatio: "16/10" }}
+        onClick={() => onPreview(project)}
+      >
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-105"
+        />
+
+        <div className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-0 transition-opacity duration-250 group-hover:opacity-100">
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {project.tech.slice(0, 3).map((tech) => (
+              <span
+                key={tech}
+                className="text-[10px] font-medium bg-white/15 text-white border border-white/10 px-2.5 py-0.5 rounded-full"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            {project.demo && (
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black transition-colors duration-200 hover:bg-[#5227ff] hover:text-white"
+              >
+                <ExternalLink size={13} />
+              </a>
+            )}
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white transition-colors duration-200 hover:bg-white/35"
+              >
+                <Github size={13} />
+              </a>
+            )}
+          </div>
+        </div>
+
+        {project.status && (
+          <span
+            className={cn(
+              "absolute left-3 top-3 rounded-full px-2.5 py-1",
+              "text-[9px] font-bold uppercase tracking-wider",
+              "border border-white/10 backdrop-blur-sm",
+              statusStyles[project.status] ?? "bg-neutral-500/80 text-white"
+            )}
+          >
+            {project.status}
+          </span>
+        )}
+      </div>
+
+      <div className="px-4 pb-4 pt-3">
+        <div className="flex items-start justify-between gap-2 mb-1.5">
+          <h3 className="font-bold text-sm text-foreground transition-colors duration-200 group-hover:text-[#5227ff]">
+            {project.title}
+          </h3>
+          {project.year && (
+            <span className="text-[11px] text-muted-foreground/40 mt-px shrink-0">
+              {project.year}
+            </span>
+          )}
+        </div>
+
+        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+          {project.description}
+        </p>
+
+        <Link
+          href={`/project/${project.slug}`}
+          onClick={(e) => e.stopPropagation()}
+          className={cn(
+            "group/link relative mt-3 -ml-2 inline-flex items-center gap-1",
+            "rounded-lg px-2 py-1.5",
+            "text-[12px] font-medium text-foreground/55",
+            "transition-colors duration-200 hover:bg-[#5227ff]/[.06] hover:text-[#5227ff]",
+            "after:absolute after:bottom-[5px] after:left-2 after:right-2 after:h-px after:bg-[#5227ff]",
+            "after:origin-left after:scale-x-0 after:transition-transform after:duration-200",
+            "hover:after:scale-x-100"
+          )}
+        >
+          View Details
+          <span className="transition-transform duration-200 group-hover/link:translate-x-0.5">→</span>
+        </Link>
+      </div>
+    </div>
   )
 }

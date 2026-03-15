@@ -38,7 +38,7 @@ export const organizations: Organization[] = [
     name: "Majelis Dakwa Kedokteran Islam (MADANI), Faculty of Medicine UNIMUS | Semarang, Indonesia",
     role: "Head of External Relations – Information and Technology (HUBLU-IT)",
     image: "/picture/organization/fuldfk.webp",
-    logo: "/logo/madani.webp",
+    logo: "/logo/institusi/madani.jpg",
     period: "2018 - 2019"
   },
 ]

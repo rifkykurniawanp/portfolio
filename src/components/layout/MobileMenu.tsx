@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion, type Variants } from "framer-motion"
 import { usePathname } from "next/navigation"
 import { NavItem } from "@/types"
 import { cn } from "@/lib/utils"
@@ -11,6 +11,36 @@ type Props = {
   close: () => void
 }
 
+const container: Variants = {
+  hidden: { opacity: 0, y: -8 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.2,
+      ease: [0.25, 0.1, 0.25, 1],
+      staggerChildren: 0.05
+    }
+  },
+  exit: {
+    opacity: 0,
+    y: -8,
+    transition: {
+      duration: 0.15,
+      ease: [0.25, 0.1, 0.25, 1]
+    }
+  }
+}
+
+const item: Variants = {
+  hidden: { opacity: 0, y: -6 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.15 }
+  }
+}
+
 export default function MobileMenu({ items, close }: Props) {
 
   const pathname = usePathname()
@@ -18,10 +48,10 @@ export default function MobileMenu({ items, close }: Props) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
+      variants={container}
+      initial="hidden"
+      animate="show"
+      exit="exit"
       className={cn(
         "md:hidden border-t border-border",
         "bg-background/80 backdrop-blur-md"
@@ -29,18 +59,16 @@ export default function MobileMenu({ items, close }: Props) {
     >
       <div className="flex flex-col items-center gap-1 py-4 px-6">
 
-        {items.map((item, i) => {
+        {items.map((itemData) => {
 
           const href = isHome
-            ? item.href
-            : `/${item.href}`
+            ? itemData.href
+            : `/${itemData.href}`
 
           return (
             <motion.div
-              key={item.label}
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05, duration: 0.2 }}
+              key={itemData.label}
+              variants={item}
               className="w-full"
             >
 
@@ -53,7 +81,7 @@ export default function MobileMenu({ items, close }: Props) {
                   "hover:bg-muted transition-all duration-200"
                 )}
               >
-                {item.label}
+                {itemData.label}
               </Link>
 
             </motion.div>

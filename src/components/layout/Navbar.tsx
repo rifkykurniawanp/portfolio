@@ -22,7 +22,9 @@ function useActiveSection(items: NavItem[], enabled: boolean) {
   useEffect(() => {
     if (!enabled) return
 
-    const handleScroll = () => {
+    let ticking = false
+
+    const updateActive = () => {
       const scrollY = window.scrollY
 
       items.forEach((item) => {
@@ -42,8 +44,18 @@ function useActiveSection(items: NavItem[], enabled: boolean) {
       })
     }
 
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateActive()
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
     window.addEventListener("scroll", handleScroll, { passive: true })
-    handleScroll()
+    updateActive()
 
     return () =>
       window.removeEventListener("scroll", handleScroll)
@@ -71,7 +83,8 @@ function ThemeToggle() {
         "relative w-8 h-8 rounded-lg flex items-center justify-center",
         "text-muted-foreground hover:text-foreground",
         "hover:bg-muted transition-all duration-200",
-        "border border-transparent hover:border-border"
+        "border border-transparent hover:border-border",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5227FF]"
       )}
     >
       <Sun
@@ -97,10 +110,11 @@ export default function Navbar({ name, items }: Props) {
 
   return (
     <nav
+      aria-label="Main navigation"
       className={cn(
         "sticky top-0 z-50 transition-all duration-300",
         "border-b border-border",
-        "bg-background/60 backdrop-blur-md"
+        "bg-background/70 backdrop-blur-sm"
       )}
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -114,19 +128,26 @@ export default function Navbar({ name, items }: Props) {
         </Link>
 
         <div className="hidden md:flex gap-8 items-center">
+
           {items.map((item) => {
+
             const id = item.href.replace("#", "")
             const isActive = isHome && active === id
+
             const href =
               isHome
                 ? item.href
                 : `/${item.href}`
+
             return (
               <div key={item.label} className="relative">
+
                 <Link
                   href={href}
+                  aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "text-[13px] font-medium transition-colors duration-200",
+                    "text-sm font-medium transition-colors duration-200",
+                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5227FF] rounded-sm",
                     isActive
                       ? "text-[#5227FF]"
                       : "text-muted-foreground hover:text-foreground"
@@ -134,10 +155,11 @@ export default function Navbar({ name, items }: Props) {
                 >
                   {item.label}
                 </Link>
+
                 {isActive && (
                   <motion.div
                     layoutId="navbar-indicator"
-                    className="absolute -left-1 -right-1 -bottom-[21px] h-[3px] bg-[#5227FF] rounded-t-full"
+                    className="absolute -left-1 -right-1 -bottom-5 h-[3px] bg-[#5227FF] rounded-t-full"
                     transition={{
                       type: "spring",
                       stiffness: 380,
@@ -153,11 +175,17 @@ export default function Navbar({ name, items }: Props) {
         </div>
 
         <div className="flex items-center gap-2">
+
           <ThemeToggle />
+
           <button
-            className="md:hidden p-2 text-muted-foreground hover:text-[#5227FF]"
+            aria-label="Toggle menu"
+            aria-expanded={open}
             onClick={() => setOpen(!open)}
-            aria-label="Toggle Menu"
+            className={cn(
+              "md:hidden p-2 text-muted-foreground hover:text-[#5227FF]",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5227FF]"
+            )}
           >
             <div className="w-6 h-5 flex flex-col justify-between items-end">
 
@@ -169,7 +197,7 @@ export default function Navbar({ name, items }: Props) {
                     : "w-6"
                 )}
               />
-                 
+
               <span
                 className={cn(
                   "h-[2px] bg-current rounded-full transition-all duration-300",

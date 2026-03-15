@@ -3,6 +3,7 @@ import { LucideIcon } from "lucide-react"
 export type NavItem = {
   label: string;
   href: string;
+  section: string;
 };
 
 export type NavbarProps = {

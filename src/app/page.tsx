@@ -3,13 +3,13 @@ import { Education, Experience, Organization, Project, Contact } from "@/compone
 
 export default function HomePage() {
   return (
-    <>
+    <main>
       <AboutMe />
       <Education />
       <Experience />
       <Organization />
       <Project />
       <Contact />
-    </>
+    </main>
   )
 }
