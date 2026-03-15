@@ -14,7 +14,7 @@ export const organizations: Organization[] = [
     name: "Ikatan Mahasiswa Muhammadiyah (IMM), Semarang Region | Semarang, Indonesia",
     role: "Secretary of Research & Knowledge Development",
     image: "/picture/organization/imm-semarang.webp",
-    logo: "/logo/imm.png",
+    logo: "/logo/institusi/imm.png",
     period: "2018 - 2019"
   },
   {
@@ -22,7 +22,7 @@ export const organizations: Organization[] = [
     name: "IMM, Faculty of Medicine, UNIMUS | Semarang, Indonesia",
     role: "President",
     image: "/picture/organization/imm-fk-unimus.webp",
-    logo: "/logo/imm.png",
+    logo: "/logo/institusi/imm.png",
     period: "2018 - 2019"
   },
   {
@@ -30,7 +30,7 @@ export const organizations: Organization[] = [
     name: "IMM, Faculty of Medicine, UNIMUS | Semarang, Indonesia",
     role: "Organization Secretary",
     image: "/picture/organization/imm-unimus.jpg",
-    logo: "/logo/imm.png",
+    logo: "/logo/institusi/imm.png",
     period: "2017 - 2018"
   },
   {

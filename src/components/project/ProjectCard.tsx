@@ -26,8 +26,10 @@ export default function ProjectCard({ project, onPreview }: ProjectCardProps) {
         "hover:-translate-y-1 hover:shadow-lg hover:shadow-black/10 hover:border-border/70"
       )}
     >
-      <div
-        className="relative m-2 overflow-hidden rounded-xl bg-muted cursor-pointer"
+      <button
+        type="button"
+        aria-label={`Preview ${project.title}`}
+        className="relative m-2 w-[calc(100%-1rem)] overflow-hidden rounded-xl bg-muted cursor-pointer text-left"
         style={{ aspectRatio: "16/10" }}
         onClick={() => onPreview(project)}
       >
@@ -39,7 +41,10 @@ export default function ProjectCard({ project, onPreview }: ProjectCardProps) {
           className="object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-105"
         />
 
-        <div className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-0 transition-opacity duration-250 group-hover:opacity-100">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/75 via-black/20 to-transparent opacity-0 transition-opacity duration-250 group-hover:opacity-100"
+        >
           <div className="flex flex-wrap gap-1.5 mb-3">
             {project.tech.slice(0, 3).map((tech) => (
               <span
@@ -56,10 +61,11 @@ export default function ProjectCard({ project, onPreview }: ProjectCardProps) {
                 href={project.demo}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`Live demo of ${project.title}`}
                 onClick={(e) => e.stopPropagation()}
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black transition-colors duration-200 hover:bg-[#5227ff] hover:text-white"
               >
-                <ExternalLink size={13} />
+                <ExternalLink size={13} aria-hidden="true" />
               </a>
             )}
             {project.github && (
@@ -67,10 +73,11 @@ export default function ProjectCard({ project, onPreview }: ProjectCardProps) {
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`GitHub repository for ${project.title}`}
                 onClick={(e) => e.stopPropagation()}
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white transition-colors duration-200 hover:bg-white/35"
               >
-                <Github size={13} />
+                <Github size={13} aria-hidden="true" />
               </a>
             )}
           </div>
@@ -88,7 +95,7 @@ export default function ProjectCard({ project, onPreview }: ProjectCardProps) {
             {project.status}
           </span>
         )}
-      </div>
+      </button>
 
       <div className="px-4 pb-4 pt-3">
         <div className="flex items-start justify-between gap-2 mb-1.5">
@@ -96,7 +103,7 @@ export default function ProjectCard({ project, onPreview }: ProjectCardProps) {
             {project.title}
           </h3>
           {project.year && (
-            <span className="text-[11px] text-muted-foreground/40 mt-px shrink-0">
+            <span className="text-[11px] text-muted-foreground/60 mt-px shrink-0">
               {project.year}
             </span>
           )}
@@ -112,7 +119,7 @@ export default function ProjectCard({ project, onPreview }: ProjectCardProps) {
           className={cn(
             "group/link relative mt-3 -ml-2 inline-flex items-center gap-1",
             "rounded-lg px-2 py-1.5",
-            "text-[12px] font-medium text-foreground/55",
+            "text-[12px] font-medium text-foreground/70",
             "transition-colors duration-200 hover:bg-[#5227ff]/[.06] hover:text-[#5227ff]",
             "after:absolute after:bottom-[5px] after:left-2 after:right-2 after:h-px after:bg-[#5227ff]",
             "after:origin-left after:scale-x-0 after:transition-transform after:duration-200",
@@ -120,7 +127,7 @@ export default function ProjectCard({ project, onPreview }: ProjectCardProps) {
           )}
         >
           View Details
-          <span className="transition-transform duration-200 group-hover/link:translate-x-0.5">→</span>
+          <span aria-hidden="true" className="transition-transform duration-200 group-hover/link:translate-x-0.5">→</span>
         </Link>
       </div>
     </div>

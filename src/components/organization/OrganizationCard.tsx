@@ -21,10 +21,8 @@ export default function OrganizationCard({ org }: OrganizationCardProps) {
       "hover:-translate-y-2"
     )}>
 
-      {/* Glow on hover */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#5227FF]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      {/* Cover image */}
       <div className="relative h-44 w-full overflow-hidden">
         <Image
           src={org.image}
@@ -34,7 +32,6 @@ export default function OrganizationCard({ org }: OrganizationCardProps) {
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
 
-        {/* Logo badge */}
         <div className={cn(
           "absolute top-4 right-4 z-10",
           "w-10 h-10 rounded-full",
@@ -53,7 +50,6 @@ export default function OrganizationCard({ org }: OrganizationCardProps) {
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-6 relative z-10">
         <h3 className={cn(
           "font-bold text-lg leading-tight",
