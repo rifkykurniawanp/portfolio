@@ -24,8 +24,8 @@ export const projects: Project[] = [
 
   tech: ["Next.js","TypeScript","Tailwind", "Radix UI","shadcn/ui","React"],
 
-  demo: "https://your-demo-link.com",
-  github: "https://final-project-fe-rifkykurniawanp-3w739adr6.vercel.app/",
+  demo: "https://final-project-fe-rifkykurniawanp-3w739adr6.vercel.app/",
+  github: "https://github.com/rifkykurniawanp/front-end-final-project",
 
   featured: true,
   status: "full-stack",
@@ -114,11 +114,10 @@ export const projects: Project[] = [
   },
 
   method: [
-    "Component-based architecture",
-    "REST API integration",
-    "Authentication & RBAC",
-    "Responsive UI",
-    "Agile development"
+    "Basic web technologies",
+    "User-friendly interface",
+    "Engaging games",
+    "Responsive design"
   ]
 },
   {
@@ -140,7 +139,7 @@ export const projects: Project[] = [
     "/picture/project/milestone-3/signin.webp"
   ],
 
-  tech: ["HTML", "CSS", "JavaScript"],
+  tech: ["Next.js","HTML", "CSS", "JavaScript", "React", "Tailwind"],
 
   demo: "https://milestone-3-rifkykurniawanp.vercel.app/",
   github: "https://github.com/revou-fsse-feb25/milestone-3-rifkykurniawanp",
@@ -156,7 +155,10 @@ export const projects: Project[] = [
   tools: [
     "HTML",
     "CSS",
-    "JavaScript"
+    "JavaScript",
+    "Next.js",
+    "React",
+    "Tailwind"
   ],
 
   about: {

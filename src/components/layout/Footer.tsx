@@ -1,7 +1,16 @@
+"use client"
+
+import { usePathname } from "next/navigation"
+import Link from "next/link"
 import { Github as GithubIcon, Linkedin as LinkedinIcon, ArrowUp as ArrowUpIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export default function Footer() {
+  const pathname = usePathname()
+  const isHome = pathname === "/"
+
+  const navItems = ["about", "project", "experience", "contactme"]
+
   return (
     <footer className={cn(
       "w-full mt-24",
@@ -10,20 +19,19 @@ export default function Footer() {
     )}>
       <div className="max-w-6xl mx-auto px-6 py-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Rifky Kurniawan Putra
           </p>
 
           <nav className="flex items-center gap-6 text-sm text-muted-foreground">
-            {["about", "project", "experience", "contactme"].map((href) => (
-              <a
-                key={href}
-                href={`#${href}`}
+            {navItems.map((id) => (
+              <Link
+                key={id}
+                href={isHome ? `#${id}` : `/#${id}`}
                 className="capitalize hover:text-foreground transition-colors duration-200"
               >
-                {href === "contactme" ? "Contact" : href}
-              </a>
+                {id === "contactme" ? "Contact" : id}
+              </Link>
             ))}
           </nav>
 
