@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 import ClientProviders from "@/components/provider/ClientProvider"
 import { navItems } from "@/data/navbar"
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -64,6 +65,7 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
       <Analytics />
+      <SpeedInsights />
     </html>
   )
 }
