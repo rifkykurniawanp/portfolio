@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes"
 import { cn } from "@/lib/utils"
 import ClientProviders from "@/components/provider/ClientProvider"
 import { navItems } from "@/data/navbar"
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(inter.variable, spaceGrotesk.variable)}
     >
+      
       <body className="relative antialiased bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
         <ThemeProvider
           attribute="class"
@@ -61,6 +63,7 @@ export default function RootLayout({
           <Footer />
         </ThemeProvider>
       </body>
+      <Analytics />
     </html>
   )
 }
