@@ -4,19 +4,29 @@ import { useEffect, useRef, useState } from "react"
 interface LazySectionProps {
   children: React.ReactNode
   rootMargin?: string
-  // Berikan estimasi tinggi section agar tidak ada layout shift saat mount
   minHeight?: string
+  sectionId?: string // tambah prop ini untuk deteksi hash
 }
 
 export default function LazySection({
   children,
-  rootMargin = "300px", // lebih besar agar load lebih awal, scroll terasa mulus
+  rootMargin = "300px",
   minHeight = "400px",
+  sectionId,
 }: LazySectionProps) {
   const ref = useRef<HTMLDivElement | null>(null)
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
+    // Force render kalau hash di URL cocok dengan section ini
+    if (sectionId) {
+      const hash = window.location.hash.replace("#", "")
+      if (hash === sectionId) {
+        setIsVisible(true)
+        return
+      }
+    }
+
     const el = ref.current
     if (!el) return
 
@@ -32,12 +42,11 @@ export default function LazySection({
 
     observer.observe(el)
     return () => observer.disconnect()
-  }, [rootMargin])
+  }, [rootMargin, sectionId])
 
   return (
     <div
       ref={ref}
-      // Placeholder height mencegah layout reflow saat konten dimuat
       style={!isVisible ? { minHeight } : undefined}
     >
       {isVisible ? children : null}

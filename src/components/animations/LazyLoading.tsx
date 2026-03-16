@@ -1,5 +1,4 @@
 "use client"
-
 import dynamic from "next/dynamic"
 import LazySection from "./LazySection"
 
@@ -11,39 +10,35 @@ const ContactComponent = dynamic(() => import("@/components/contactme/Contactme"
 
 export function Education() {
   return (
-    <LazySection>
+    <LazySection sectionId="education">
       <EducationComponent />
     </LazySection>
   )
 }
-
 export function Experience() {
   return (
-    <LazySection>
+    <LazySection sectionId="experience">
       <ExperienceComponent />
     </LazySection>
   )
 }
-
 export function Organization() {
   return (
-    <LazySection>
+    <LazySection sectionId="organization">
       <OrganizationComponent />
     </LazySection>
   )
 }
-
 export function Project() {
   return (
-    <LazySection>
+    <LazySection sectionId="project">
       <ProjectComponent />
     </LazySection>
   )
 }
-
 export function Contact() {
   return (
-    <LazySection>
+    <LazySection sectionId="contactme">
       <ContactComponent />
     </LazySection>
   )
