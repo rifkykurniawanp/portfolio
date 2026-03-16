@@ -8,30 +8,24 @@ function PageLoader() {
   const [fadeOut, setFadeOut] = useState(false)
 
   useEffect(() => {
-    const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming
-
-    if (nav?.type !== "reload") {
+    const timer = setTimeout(() => {
       setFadeOut(true)
-      const timer = setTimeout(() => setVisible(false), 300)
-      return () => clearTimeout(timer)
-    }
 
-    requestAnimationFrame(() => {
-      const timer = setTimeout(() => {
-        setFadeOut(true)
-        const removeTimer = setTimeout(() => setVisible(false), 300)
-        return () => clearTimeout(removeTimer)
-      }, 1300)
+      const remove = setTimeout(() => {
+        setVisible(false)
+      }, 300)
 
-      return () => clearTimeout(timer)
-    })
+      return () => clearTimeout(remove)
+    }, 600) // lebih cepat & UX friendly
+
+    return () => clearTimeout(timer)
   }, [])
 
   if (!visible) return null
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-neutral-950 transition-opacity duration-300 ${
+      className={`fixed inset-0 z-50 pointer-events-none flex items-center justify-center bg-white dark:bg-neutral-950 transition-opacity duration-300 ${
         fadeOut ? "opacity-0" : "opacity-100"
       }`}
     >
@@ -46,4 +40,4 @@ function PageLoader() {
   )
 }
 
-export default memo(PageLoader) 
+export default memo(PageLoader)

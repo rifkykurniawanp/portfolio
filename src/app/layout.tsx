@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes"
 import { cn } from "@/lib/utils"
 import ClientProviders from "@/components/provider/ClientProvider"
 import { navItems } from "@/data/navbar"
+import PageLoader from "@/components/animations/PageLoader"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -37,7 +38,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(inter.variable, spaceGrotesk.variable)}
     >
-      
       <body className="relative antialiased bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
         <ThemeProvider
           attribute="class"
@@ -47,12 +47,17 @@ export default function RootLayout({
         >
           <ClientProviders />
 
+          {/* ✅ BACKGROUND (tidak block klik) */}
           <div className="pointer-events-none fixed inset-0 -z-10">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-neutral-950 dark:via-neutral-900 dark:to-indigo-950" />
             <div className="absolute top-1/3 left-1/2 w-[600px] h-[600px] -translate-x-1/2 bg-indigo-500/10 blur-[60px] rounded-full dark:bg-indigo-500/20" />
             <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-400/10 blur-[40px] rounded-full dark:bg-blue-400/20" />
           </div>
 
+          {/* ✅ FIX: Loader tidak block klik */}
+          <PageLoader />
+
+          {/* ✅ Navbar selalu bisa diklik */}
           <Navbar name="Rifky Kurniawan Putra" items={navItems} />
 
           <main className="relative z-10 mx-auto max-w-6xl px-6 py-8">
