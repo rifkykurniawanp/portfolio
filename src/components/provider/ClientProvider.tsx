@@ -14,37 +14,20 @@ function HashScrollHandler() {
       if (!hash) return
 
       const id = hash.replace("#", "")
-      let attempts = 0
-      const maxAttempts = 50 // 5 detik — cukup untuk dynamic import selesai
+      const el = document.getElementById(id)
 
-      const interval = setInterval(() => {
-        const el = document.getElementById(id)
-        attempts++
-
-        if (el) {
-          // Tunggu satu frame lagi setelah element ditemukan
-          // agar konten dynamic import selesai paint
-          requestAnimationFrame(() => {
-            const top = el.getBoundingClientRect().top + window.scrollY - 80
-            window.scrollTo({ top, behavior: "smooth" })
-          })
-          clearInterval(interval)
-          return
-        }
-
-        if (attempts >= maxAttempts) clearInterval(interval)
-      }, 100)
-
-      return () => clearInterval(interval)
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 80
+        window.scrollTo({ top, behavior: "smooth" })
+      }
     }
 
-    const cleanup = scrollToHash()
-
-    // Handle klik hash saat sudah di halaman yang sama
+    // Delay kecil untuk tunggu paint setelah navigasi
+    const timer = setTimeout(scrollToHash, 50)
     window.addEventListener("hashchange", scrollToHash)
 
     return () => {
-      cleanup?.()
+      clearTimeout(timer)
       window.removeEventListener("hashchange", scrollToHash)
     }
   }, [pathname])
