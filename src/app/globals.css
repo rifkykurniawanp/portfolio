@@ -3,9 +3,24 @@
 @custom-variant dark (&:is(.dark *));
 
 /* -----------------------------
-   Root Theme Tokens (UNCHANGED - aman)
+   Smooth Theme Transition (SAFE)
 ------------------------------*/
+:root {
+  --theme-transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                      color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                      border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                      fill 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                      stroke 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
+/* opt-in transition (PERFORMA AMAN) */
+.theme-transition {
+  transition: var(--theme-transition);
+}
+
+/* -----------------------------
+   Root Theme Tokens (UNCHANGED)
+------------------------------*/
 :root {
   --font-body: var(--font-inter);
   --font-heading: var(--font-heading);
@@ -40,9 +55,8 @@
 }
 
 /* -----------------------------
-   Theme mapping (UNCHANGED)
+   Theme mapping
 ------------------------------*/
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -65,32 +79,29 @@
 }
 
 /* -----------------------------
-   Base Styles (OPTIMIZED)
+   Base Styles
 ------------------------------*/
-
 @layer base {
-
-  /* ❌ sebelumnya: * { @apply border-border outline-ring/50 } */
   *, ::before, ::after {
     border-color: var(--color-border);
   }
 
   html {
     font-family: var(--font-body);
-    scroll-behavior: auto; /* ⛔ disable smooth global */
+    scroll-behavior: auto;
     color-scheme: light dark;
   }
 
   body {
     background: var(--color-background);
     color: var(--color-foreground);
+    transition: var(--theme-transition);
   }
 
   h1, h2, h3, h4 {
     font-family: var(--font-heading);
   }
 
-  /* focus hanya saat perlu */
   :focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
@@ -102,9 +113,8 @@
 }
 
 /* -----------------------------
-   Animations (OPTIMIZED)
+   Animations
 ------------------------------*/
-
 @keyframes scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -115,14 +125,12 @@
   will-change: transform;
 }
 
-/* disable heavy animation if needed */
 @media (prefers-reduced-motion: reduce) {
   .animate-scroll {
     animation: none;
   }
 }
 
-/* fade out tetap */
 @keyframes fadeOut {
   from { opacity: 1; }
   to { opacity: 0; }
@@ -133,9 +141,8 @@
 }
 
 /* -----------------------------
-   Dark Mode (UNCHANGED LOGIC)
+   Dark Mode
 ------------------------------*/
-
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);

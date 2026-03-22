@@ -1,36 +1,169 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Rifky Kurniawan Putra -- Portfolio
 
-## Getting Started
+Personal portfolio website built with **Next.js 16**, showcasing
+projects, experience, education, and contact information.
 
-First, run the development server:
+This website is designed to highlight professional work, technical
+skills, and personal background in an interactive and modern interface.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+------------------------------------------------------------------------
+
+# 🌐 Live Website
+
+https://rifkykurniawanputra.vercel.app/
+
+------------------------------------------------------------------------
+
+# 🧑‍💻 About The Project
+
+This portfolio website is created to present:
+
+-   Personal profile and background
+-   Education and professional experience
+-   Organization involvement
+-   Featured projects
+-   Contact form for collaboration
+
+The site emphasizes **performance, modern UI, and smooth animation**
+while keeping the structure clean and maintainable.
+
+------------------------------------------------------------------------
+
+# ⚙️ Tech Stack
+
+## Framework
+
+-   Next.js 16
+-   React 19
+-   TypeScript
+
+## Styling
+
+-   Tailwind CSS
+-   CSS Variables
+-   Custom animation utilities
+
+## Animation
+
+-   Framer Motion
+-   GSAP
+-   Custom animation components
+
+## Form & Validation
+
+-   React Hook Form
+-   Zod
+
+## Email Integration
+
+-   EmailJS
+
+## UI Utilities
+
+-   Lucide Icons
+-   Sonner (toast notifications)
+
+------------------------------------------------------------------------
+
+# 📁 Project Structure
+
+    rifkykurniawanp-portfolio
+    │
+    ├── public
+    │   ├── assets
+    │   └── picture
+    │
+    ├── src
+    │   ├── app                # Next.js App Router pages
+    │   ├── components         # Reusable UI components
+    │   │   ├── aboutme
+    │   │   ├── animations
+    │   │   ├── contactme
+    │   │   ├── education
+    │   │   ├── experience
+    │   │   ├── organization
+    │   │   └── project
+    │   │
+    │   ├── data               # Static data
+    │   ├── lib                # Utility functions
+    │   └── types.ts           # TypeScript types
+    │
+    ├── next.config.ts
+    ├── tsconfig.json
+    └── package.json
+
+------------------------------------------------------------------------
+
+# ✨ Features
+
+-   Responsive modern portfolio design
+-   Smooth UI animations
+-   Lazy loading sections for performance
+-   Dynamic project pages
+-   Dark / Light theme support
+-   Interactive contact form
+-   Custom cursor effect
+-   Page loading animation
+
+------------------------------------------------------------------------
+
+# 🛠️ Getting Started
+
+Clone the repository:
+
+``` bash
+git clone https://github.com/rifkykurniawanp/portfolio.git
+cd portfolio
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+``` bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run development server:
 
-## Learn More
+``` bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open in browser:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    http://localhost:3000
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+------------------------------------------------------------------------
 
-## Deploy on Vercel
+# 📦 Build for Production
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+``` bash
+npm run build
+npm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+------------------------------------------------------------------------
+
+# 📬 Environment Variables
+
+Create `.env.local` file:
+
+    NEXT_PUBLIC_EMAILJS_SERVICE_ID=
+    NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=
+    NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=
+
+------------------------------------------------------------------------
+
+# 📄 License
+
+MIT License
+
+------------------------------------------------------------------------
+
+# 👨‍⚕️ Author
+
+**Rifky Kurniawan Putra**
+
+Full-Stack Developer & Medical Doctor
+
+-   Portfolio: https://rifkykurniawanputra.vercel.app
+-   GitHub: https://github.com/rifkykurniawanp
